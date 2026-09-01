@@ -1,0 +1,12 @@
+{
+  "slug": "mirror-orchard",
+  "title": "Mirror Orchard",
+  "territory": "games-creative",
+  "user": "Puzzle players who like novel visual mechanics but want past puzzles and a low-pressure way to learn them instead of being locked into a single daily attempt.",
+  "smallest_useful_product": "A seed-based visual symmetry game about growing a mirrored orchard: one daily featured puzzle plus an always-open, ordered archive of 40 teaching boards and replayable personal seeds.",
+  "success_measure": "At least half of new players finish three archived teaching boards before attempting the daily puzzle, with 20% returning within a week.",
+  "artifact_class": "browser-game",
+  "monetization": "free",
+  "constraints": "Invent an independently designed symmetry rule and visual language; make every state distinguishable without color; preserve seed reproducibility.",
+  "catalog_description": "Grow mirrored orchard patterns across 40 teaching boards, a daily puzzle, and replayable seeds."
+}
