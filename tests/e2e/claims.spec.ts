@@ -30,11 +30,13 @@ test('@claim:archive-open all 40 teaching boards stay open', async ({ page }) =>
 });
 
 test('@claim:complete-round a demo puzzle reaches its end screen', async ({ page }) => {
+  const started = Date.now();
   await enterDemo(page);
   await expect(page.getByText('1', { exact: true }).first()).toBeVisible();
   await solveDemoBoard(page);
   await expect(page.getByRole('heading', { name: 'The orchard is mirrored' })).toBeVisible();
   await expect(page.getByText('3 of 3')).toBeVisible();
+  expect(Date.now() - started).toBeLessThan(300_000);
 });
 
 test('@claim:restart-reset restarting clears the current run', async ({ page }) => {
@@ -72,6 +74,8 @@ test('@claim:daily-seed today\'s board remains stable on reload', async ({ page 
   await enterDemo(page);
   await page.getByRole('link', { name: 'Daily' }).click();
   const first = await page.locator('.game-board').getAttribute('data-fingerprint');
+  const activeSeed = await page.evaluate(() => window.__mirrorOrchard?.getActiveGame()?.board.seed);
+  expect(activeSeed).toBe(`daily:${new Date().toISOString().slice(0, 10)}:v1`);
   await page.reload();
   await expect(page.locator('.game-board')).toHaveAttribute('data-fingerprint', first ?? '');
 });
@@ -83,6 +87,17 @@ test('@claim:local-only demo play sends only same-origin requests', async ({ pag
   await page.getByRole('button', { name: /Rotate/ }).click();
   await page.getByRole('link', { name: 'Archive' }).click();
   expect([...origins]).toEqual(['http://127.0.0.1:4173']);
+});
+
+test('@claim:demo-isolated demo data uses its own disposable storage', async ({ page }) => {
+  await enterDemo(page);
+  const keys = await page.evaluate(() => Object.keys(localStorage));
+  expect(keys).toContain('demo:mirror-orchard:v1');
+  expect(keys).not.toContain('mirror-orchard:v1');
+  await page.getByRole('link', { name: 'Archive' }).click();
+  await page.getByRole('link', { name: 'Start for real' }).click();
+  await expect(page).toHaveURL(/\/play\/archive\/1$/);
+  expect(await page.evaluate(() => localStorage.getItem('demo:mirror-orchard:v1'))).toBeNull();
 });
 
 test('@claim:free-no-account game offers play without login or payment', async ({ page }) => {
@@ -137,13 +152,20 @@ test('routes have one h1, no serious axe issues, and fit 390px', async ({ browse
   await context.close();
 });
 
-test('keyboard controls select, rotate, move, and pause', async ({ page }) => {
+test('@claim:input-paths pointer, touch, and keyboard controls work', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
+  const page = await context.newPage();
   await enterDemo(page);
+  const placement = archiveBoard(3).solution[1];
+  await page.locator(`button[data-piece-kind="${placement.kind}"]:not(:disabled)`).first().tap();
+  await page.locator(`[data-cell="${placement.anchor.col},${placement.anchor.row}"]`).tap();
+  await expect(page.locator('.game-readout span').nth(1).locator('b')).toHaveText('2');
   await page.locator('[data-cell="0,0"]').focus();
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('[data-cell="1,0"]')).toBeFocused();
-  await page.keyboard.press('2');
-  await expect(page.locator('[data-piece-id="piece-1"]')).toBeFocused();
+  await page.keyboard.press('3');
+  await expect(page.locator('[data-piece-id="piece-2"]')).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('heading', { name: 'Your planting is saved' })).toBeFocused();
+  await context.close();
 });

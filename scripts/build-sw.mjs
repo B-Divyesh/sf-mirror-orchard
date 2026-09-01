@@ -22,15 +22,15 @@ const version = hash.digest('hex').slice(0, 12);
 const urls = ['/', ...files.map((file) => `/${relative(root, file).split(sep).join('/')}`)].filter((value, index, all) => all.indexOf(value) === index);
 const source = `const CACHE = 'mirror-orchard-${version}';
 const PRECACHE = ${JSON.stringify(urls)};
-self.addEventListener('install', (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting())));
+self.addEventListener('install', (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(PRECACHE.map((url) => new Request(url, { cache: 'reload' })))).then(() => self.skipWaiting())));
 self.addEventListener('activate', (event) => event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('mirror-orchard-') && key !== CACHE).map((key) => caches.delete(key)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   if (event.request.mode === 'navigate') {
-    event.respondWith(fetch(event.request).catch(() => caches.match('/index.html')).then((response) => response || caches.match('/')));
+    event.respondWith(fetch(event.request).catch(() => caches.open(CACHE).then((cache) => cache.match('/index.html', { ignoreVary: true }))).then((response) => response || caches.open(CACHE).then((cache) => cache.match('/', { ignoreVary: true }))));
     return;
   }
-  event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {
+  event.respondWith(caches.open(CACHE).then((cache) => cache.match(new URL(event.request.url).pathname, { ignoreSearch: true, ignoreVary: true })).then((cached) => cached || fetch(event.request).then((response) => {
     if (response.ok && new URL(event.request.url).origin === self.location.origin) caches.open(CACHE).then((cache) => cache.put(event.request, response.clone()));
     return response;
   })));

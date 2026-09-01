@@ -76,7 +76,7 @@ The social image is composed locally from the same scene with product typography
 ## Asset provenance
 
 - `public/art/orchard-landscape.webp` and its source PNG: generated for this product with the factory image deployment on 2026-09-01 from the prompt sheet above. No people, brands, or copyrighted characters were requested.
-- `public/social-card.png`: locally composed from the generated scene and product-owned vector shapes.
+- `public/social-card.jpg`: locally cropped from the generated scene for social previews.
 - Game tiles, branch marks, favicon, and interface icons are authored in CSS/SVG/Canvas in this repository.
 - Fraunces and Manrope are licensed under the SIL Open Font License through their npm font packages.
 

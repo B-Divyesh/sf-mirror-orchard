@@ -8,7 +8,7 @@
   },
   {
     "id": "complete-round",
-    "claim": "A teaching board can be played through to the end screen.",
+    "claim": "A teaching board can reach its end screen in under five minutes.",
     "where": "game loop, README",
     "test": "npm run test:e2e -- --grep @claim:complete-round",
     "sandbox": "fresh /demo sample; place the supplied branches through the public UI"
@@ -49,6 +49,13 @@
     "sandbox": "fresh /demo sample; record every request during play and archive navigation"
   },
   {
+    "id": "demo-isolated",
+    "claim": "Demo data uses a separate disposable storage area.",
+    "where": "demo banner, privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:demo-isolated",
+    "sandbox": "fresh /demo sample; inspect keys, leave with Start for real, and verify the demo key is removed"
+  },
+  {
     "id": "free-no-account",
     "claim": "The game is free and needs no account.",
     "where": "landing page, README",
@@ -61,6 +68,13 @@
     "where": "landing page, README",
     "test": "npm run test:e2e -- --grep @claim:offline-reload",
     "sandbox": "dedicated fresh browser context; visit /demo, wait for its service worker, set offline, and reload"
+  },
+  {
+    "id": "input-paths",
+    "claim": "The game supports pointer, touch, and keyboard controls.",
+    "where": "game help, README",
+    "test": "npm run test:e2e -- --grep @claim:input-paths",
+    "sandbox": "fresh 390px touch-enabled /demo context; tap a branch and plot, then navigate and pause by keyboard"
   },
   {
     "id": "frame-rate",

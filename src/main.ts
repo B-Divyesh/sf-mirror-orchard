@@ -88,6 +88,9 @@ function setMetadata(title: string, description: string, path = location.pathnam
   document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute('content', description);
   document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.setAttribute('content', title);
   document.querySelector<HTMLMetaElement>('meta[property="og:description"]')?.setAttribute('content', description);
+  document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute('content', `https://mirror-orchard.sociobot.in${path}`);
+  document.querySelector<HTMLMetaElement>('meta[name="twitter:title"]')?.setAttribute('content', title);
+  document.querySelector<HTMLMetaElement>('meta[name="twitter:description"]')?.setAttribute('content', description);
   document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.setAttribute('href', `https://mirror-orchard.sociobot.in${path}`);
 }
 
@@ -170,7 +173,7 @@ function archivePage(demo = false): string {
   }).join('');
   return shell(`<main id="main" class="page-wrap archive-page">
     <header class="page-intro"><p class="eyebrow">Always open</p><h1 tabindex="-1">Learn with 40 teaching boards</h1><p>Open any board. The early boards teach one rule at a time.</p></header>
-    <div class="archive-summary"><span><b>${data.completed.length}</b> of 40 complete</span><span>About 2–5 minutes each</span></div>
+    <div class="archive-summary"><span><b>${data.completed.length}</b> of 40 complete</span><span>Short, turn-based boards</span></div>
     <ol class="archive-list">${items}</ol>
   </main>`, demo);
 }
@@ -328,21 +331,35 @@ function currentBoardFromRoute(): { board: Board; demo: boolean } | null {
     return { board: archiveBoard(Number.isFinite(requested) ? requested : 3), demo: true };
   }
   const archiveMatch = path.match(/^\/play\/archive\/(\d+)$/);
-  if (archiveMatch) return { board: archiveBoard(Number(archiveMatch[1])), demo: false };
+  if (archiveMatch) {
+    const level = Number(archiveMatch[1]);
+    if (level < 1 || level > 40) return null;
+    return { board: archiveBoard(level), demo };
+  }
   if (path === '/daily') {
     const date = new Date().toISOString().slice(0, 10);
     return { board: seededBoard(date, 'daily'), demo };
   }
   const seedMatch = path.match(/^\/play\/seed\/(.+)$/);
-  if (seedMatch) return { board: seededBoard(decodeURIComponent(seedMatch[1])), demo };
+  if (seedMatch) {
+    try {
+      return { board: seededBoard(decodeURIComponent(seedMatch[1])), demo };
+    } catch {
+      return null;
+    }
+  }
   return null;
 }
 
 function render(focusHeading = true): void {
   announcement = '';
   activeGame = null;
-  const path = location.pathname;
+  let path = location.pathname;
   const demo = new URLSearchParams(location.search).get('demo') === '1';
+  if (path === '/' && demo) {
+    history.replaceState({}, '', '/demo');
+    path = '/demo';
+  }
   const game = currentBoardFromRoute();
   if (game) app.innerHTML = gamePage(game.board, game.demo);
   else if (path === '/') app.innerHTML = landingPage();
@@ -465,7 +482,8 @@ function bindPage(): void {
     link.addEventListener('click', (event) => {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
-      if (activeGame?.demo && link.getAttribute('href') === '/play/archive/1') discardDemo();
+      const leavingDemo = activeGame?.demo || location.pathname === '/demo' || new URLSearchParams(location.search).get('demo') === '1';
+      if (leavingDemo && link.getAttribute('href') === '/play/archive/1') discardDemo();
       navigate(link.getAttribute('href') ?? '/');
     });
   });
@@ -546,7 +564,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).catch(() => {
     // The game remains usable online when service workers are unavailable.
   }));
 }
