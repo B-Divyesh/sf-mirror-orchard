@@ -1,0 +1,10 @@
+{
+  "name": "Mirror Orchard",
+  "short_name": "Orchard",
+  "description": "A mirrored branch-tiling puzzle with 40 teaching boards.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06191d",
+  "theme_color": "#06191d",
+  "icons": [{ "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }]
+}

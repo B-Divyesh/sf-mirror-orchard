@@ -1,0 +1,7 @@
+:root { color-scheme: dark; font-family: system-ui, sans-serif; background: #06191d; color: #f4f1dc; }
+body { min-height: 100vh; margin: 0; display: grid; place-items: center; background: radial-gradient(circle at center, #14393b, #06191d 70%); }
+main { width: min(620px, calc(100% - 48px)); }
+p { max-width: 52ch; color: #b9cbc2; font-size: 1.08rem; line-height: 1.6; }
+h1 { margin: 8px 0 16px; font-family: Georgia, serif; font-size: clamp(3rem, 10vw, 6rem); line-height: 1; }
+a { display: inline-flex; min-height: 44px; align-items: center; padding: 8px 18px; color: #082118; background: #a8ffc6; border-radius: 12px 12px 3px 12px; font-weight: 800; }
+a:focus-visible { outline: 3px solid #ffd37d; outline-offset: 3px; }

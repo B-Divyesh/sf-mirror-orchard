@@ -1,0 +1,8 @@
+{
+  "tool": "/opt/fleet/lib/gen-image.sh",
+  "deployment": "factory-image",
+  "date": "2026-09-01",
+  "size": "1536x1024",
+  "quality": "high",
+  "prompt": "A small impossible orchard of translucent hand-blown glass trees growing on stepped dark mineral terraces, perfectly reflected across a narrow vertical glass canal. Etched stone planting grid, beads of dew, faint internal botanical light. Moonlit pre-dawn with soft volumetric haze, elevated three-quarter editorial landscape, crisp obvious central reflection axis. Deep teal-black, oxidized green glass, warm ivory, young-leaf mint, and one restrained amber glow. Calm negative space in the upper left. No interface, people, animals, buildings, text, letters, numbers, logos, watermark, symbols, fantasy castle, cyberpunk city, or gradient blobs."
+}
