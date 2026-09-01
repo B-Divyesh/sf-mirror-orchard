@@ -1,0 +1,72 @@
+[
+  {
+    "id": "archive-open",
+    "claim": "All 40 teaching boards stay open.",
+    "where": "landing page, archive, README",
+    "test": "npm run test:e2e -- --grep @claim:archive-open",
+    "sandbox": "fresh browser context entered through /demo; open the demo archive and board 40"
+  },
+  {
+    "id": "complete-round",
+    "claim": "A teaching board can be played through to the end screen.",
+    "where": "game loop, README",
+    "test": "npm run test:e2e -- --grep @claim:complete-round",
+    "sandbox": "fresh /demo sample; place the supplied branches through the public UI"
+  },
+  {
+    "id": "restart-reset",
+    "claim": "Restarting resets the current run.",
+    "where": "pause and end screens",
+    "test": "npm run test:e2e -- --grep @claim:restart-reset",
+    "sandbox": "fresh /demo sample; add a branch, pause, restart, and inspect the board"
+  },
+  {
+    "id": "settings-persist",
+    "claim": "Game settings persist locally.",
+    "where": "game controls, README",
+    "test": "npm run test:e2e -- --grep @claim:settings-persist",
+    "sandbox": "fresh /demo sample; enable calm motion and reload"
+  },
+  {
+    "id": "seed-reproducible",
+    "claim": "The same personal seed always makes the same board and branch tray.",
+    "where": "landing page, seed page, README",
+    "test": "npm run test:e2e -- --grep @claim:seed-reproducible",
+    "sandbox": "fresh /demo sample; create mist-fern and compare its board fingerprint after reload"
+  },
+  {
+    "id": "daily-seed",
+    "claim": "The daily board uses a stable UTC date seed.",
+    "where": "landing page, daily route, README",
+    "test": "npm run test:e2e -- --grep @claim:daily-seed",
+    "sandbox": "fresh /demo sample; open Daily and compare its fingerprint after reload"
+  },
+  {
+    "id": "local-only",
+    "claim": "Progress stays on this device and the game loads no third-party scripts.",
+    "where": "landing page, privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:local-only",
+    "sandbox": "fresh /demo sample; record every request during play and archive navigation"
+  },
+  {
+    "id": "free-no-account",
+    "claim": "The game is free and needs no account.",
+    "where": "landing page, README",
+    "test": "npm run test:e2e -- --grep @claim:free-no-account",
+    "sandbox": "fresh browser context; verify there is no login, password, checkout, or payment step before demo play"
+  },
+  {
+    "id": "offline-reload",
+    "claim": "The game works offline after the first visit.",
+    "where": "landing page, README",
+    "test": "npm run test:e2e -- --grep @claim:offline-reload",
+    "sandbox": "dedicated fresh browser context; visit /demo, wait for its service worker, set offline, and reload"
+  },
+  {
+    "id": "frame-rate",
+    "claim": "The board rendering loop targets 60 fps on a mid-range phone.",
+    "where": "handoff performance notes",
+    "test": "npm run test:e2e -- --grep @claim:frame-rate",
+    "sandbox": "fresh /demo sample in Chromium; measure 60 consecutive animation frames and require at least 45 fps"
+  }
+]

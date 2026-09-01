@@ -49,13 +49,14 @@ function leafMark(): string {
 }
 
 function routeLink(path: string, label: string, className = ''): string {
-  return `<a href="${path}" data-route class="${className}">${label}</a>`;
+  const accessibleName = className.includes('wordmark') ? 'aria-label="Mirror Orchard home"' : '';
+  return `<a href="${path}" data-route class="${className}" ${accessibleName}>${label}</a>`;
 }
 
 function shell(main: string, demo = false): string {
   const network = navigator.onLine ? '' : '<p class="network-note" role="status">You are offline. Saved boards remain playable.</p>';
   const demoBanner = demo ? `<aside class="demo-banner" aria-label="Demo controls">
-      <span><strong>Demo</strong> — sample data, nothing is saved to your progress</span>
+      <span><strong>Demo</strong> — sample data, nothing is saved</span>
       <span class="demo-actions"><button type="button" data-action="reset-demo">Reset demo</button>${routeLink('/play/archive/1', 'Start for real', 'text-link')}</span>
     </aside>` : '';
   return `
@@ -64,18 +65,18 @@ function shell(main: string, demo = false): string {
       ${demoBanner}
       ${network}
       <header class="site-header">
-        ${routeLink('/', `${leafMark()}<span>Mirror Orchard</span>`, 'wordmark')}
+        ${routeLink(demo ? '/demo' : '/', `${leafMark()}<span>Mirror Orchard</span>`, 'wordmark')}
         <nav aria-label="Primary navigation">
-          ${routeLink('/archive', 'Archive')}
-          ${routeLink('/daily', 'Daily')}
-          ${routeLink('/seeds', 'Seeds')}
+          ${routeLink(demo ? '/archive?demo=1' : '/archive', 'Archive')}
+          ${routeLink(demo ? '/daily?demo=1' : '/daily', 'Daily')}
+          ${routeLink(demo ? '/seeds?demo=1' : '/seeds', 'Seeds')}
           ${routeLink('/demo', 'Demo')}
         </nav>
       </header>
       ${main}
       <footer class="site-footer">
         <p><strong>Mirror Orchard.</strong> Plant reflected branch puzzles at your pace.</p>
-        <nav aria-label="Footer navigation">${routeLink('/privacy', 'Privacy')}${routeLink('/terms', 'Terms')}<a href="https://sociobot.in" rel="external">Built by Param Factory <span class="sr-only">(external site)</span></a></nav>
+        <nav aria-label="Footer navigation">${routeLink(demo ? '/privacy?demo=1' : '/privacy', 'Privacy')}${routeLink(demo ? '/terms?demo=1' : '/terms', 'Terms')}<a href="https://sociobot.in" rel="external">Built by Param Factory <span class="sr-only">(external site)</span></a></nav>
         <p class="build-note">Version 1.0 · Landscape generated for this game with the factory image model.</p>
       </footer>
     </div>
@@ -93,7 +94,7 @@ function setMetadata(title: string, description: string, path = location.pathnam
 function previewBoard(): string {
   const board = archiveBoard(1);
   const targets = new Set(board.target);
-  return `<div class="preview-board" aria-label="Preview of a symmetric planting board">
+  return `<div class="preview-board" role="img" aria-label="Preview of a symmetric planting board">
     ${Array.from({ length: BOARD_SIZE * BOARD_SIZE }, (_, index) => {
       const key = cellKey({ col: index % BOARD_SIZE, row: Math.floor(index / BOARD_SIZE) });
       return `<span class="preview-plot ${targets.has(key) ? 'is-target' : ''} ${index % BOARD_SIZE === AXIS ? 'is-axis' : ''}"></span>`;
@@ -174,11 +175,11 @@ function archivePage(demo = false): string {
   </main>`, demo);
 }
 
-function seedPage(): string {
+function seedPage(demo = false): string {
   setMetadata('Personal seeds — Mirror Orchard', 'Enter a word or phrase to create a reproducible mirrored orchard.', '/seeds');
-  const data = loadData(false);
+  const data = loadData(demo);
   const recent = data.recentSeeds.length
-    ? `<ul class="seed-list">${data.recentSeeds.map((seed) => `<li>${routeLink(`/play/seed/${encodeURIComponent(seed)}`, `<span>${escapeHtml(seed)}</span><span>Replay →</span>`)}</li>`).join('')}</ul>`
+    ? `<ul class="seed-list">${data.recentSeeds.map((seed) => `<li>${routeLink(`/play/seed/${encodeURIComponent(seed)}${demo ? '?demo=1' : ''}`, `<span>${escapeHtml(seed)}</span><span>Replay →</span>`)}</li>`).join('')}</ul>`
     : '<div class="empty-state"><p>Your replayed seeds will appear here.</p><p>Enter a word above to make the first one.</p></div>';
   return shell(`<main id="main" class="page-wrap seed-page">
     <header class="page-intro"><p class="eyebrow">Reproducible boards</p><h1 tabindex="-1">Grow a puzzle from any seed</h1><p>The same letters always make the same board and branch tray.</p></header>
@@ -188,7 +189,7 @@ function seedPage(): string {
       <p id="seed-help">Use 1–48 letters, numbers, spaces, or dashes.</p>
     </form>
     <section aria-labelledby="recent-seeds"><h2 id="recent-seeds">Recent seeds</h2>${recent}</section>
-  </main>`);
+  </main>`, demo);
 }
 
 function pieceGlyph(kind: PieceKind): string {
@@ -208,13 +209,11 @@ function boardMarkup(board: Board, state: GameState): string {
   const filled = new Set(state.filled);
   const stones = new Set(board.stones);
   return `<div class="game-board" role="grid" aria-label="Seven by seven mirrored planting board" data-fingerprint="${escapeHtml(board.fingerprint)}">
-    ${Array.from({ length: BOARD_SIZE * BOARD_SIZE }, (_, index) => {
-      const col = index % BOARD_SIZE;
-      const row = Math.floor(index / BOARD_SIZE);
-      const key = cellKey({ col, row });
-      const classes = ['plot', col === AXIS ? 'axis-plot' : '', target.has(key) ? 'target-plot' : '', filled.has(key) ? 'filled-plot' : '', stones.has(key) ? 'stone-plot' : ''].filter(Boolean).join(' ');
-      return `<button type="button" role="gridcell" class="${classes}" data-cell="${key}" aria-label="${cellLabel(board, state, col, row)}" ${state.phase !== 'playing' ? 'disabled' : ''}><span class="soil-mark"></span>${filled.has(key) ? leafMark() : ''}</button>`;
-    }).join('')}
+    ${Array.from({ length: BOARD_SIZE }, (_, row) => `<div class="board-row" role="row">${Array.from({ length: BOARD_SIZE }, (_cell, col) => {
+        const key = cellKey({ col, row });
+        const classes = ['plot', col === AXIS ? 'axis-plot' : '', target.has(key) ? 'target-plot' : '', filled.has(key) ? 'filled-plot' : '', stones.has(key) ? 'stone-plot' : ''].filter(Boolean).join(' ');
+        return `<button type="button" role="gridcell" class="${classes}" data-cell="${key}" aria-label="${cellLabel(board, state, col, row)}" ${state.phase !== 'playing' ? 'disabled' : ''}><span class="soil-mark"></span>${filled.has(key) ? leafMark() : ''}</button>`;
+      }).join('')}</div>`).join('')}
   </div>`;
 }
 
@@ -231,20 +230,30 @@ function endPanel(game: ActiveGame): string {
   const { board, state, demo } = game;
   if (state.phase === 'playing') return '';
   if (state.phase === 'paused') return `<div class="game-overlay" role="dialog" aria-modal="true" aria-labelledby="pause-title">
-    <div><p class="eyebrow">Board paused</p><h2 id="pause-title">Your planting is saved</h2><p>Resume when you are ready.</p><button class="primary-action" type="button" data-action="resume">Resume board</button><button type="button" data-action="restart">Restart board</button></div>
+    <div><p class="eyebrow">Board paused</p><h2 id="pause-title" tabindex="-1">Your planting is saved</h2><p>Resume when you are ready.</p><button class="primary-action" type="button" data-action="resume">Resume board</button><button type="button" data-action="restart">Restart board</button></div>
   </div>`;
   if (state.phase === 'lost') return `<div class="game-overlay" role="dialog" aria-modal="true" aria-labelledby="lost-title">
-    <div><p class="eyebrow">No dew left</p><h2 id="lost-title">This orchard withered</h2><p>Restart with a full tray and three dew drops.</p><button class="primary-action" type="button" data-action="restart">Restart board</button><button type="button" data-action="review">Review pattern</button></div>
+    <div><p class="eyebrow">No dew left</p><h2 id="lost-title" tabindex="-1">This orchard withered</h2><p>Restart with a full tray and three dew drops.</p><button class="primary-action" type="button" data-action="restart">Restart board</button></div>
   </div>`;
   return `<div class="game-overlay win-overlay" role="dialog" aria-modal="true" aria-labelledby="win-title">
-    <div><p class="eyebrow">Pattern complete</p><h2 id="win-title">The orchard is mirrored</h2><dl><div><dt>Moves</dt><dd>${state.moves}</dd></div><div><dt>Dew left</dt><dd>${state.dew} of 3</dd></div><div><dt>Seed</dt><dd>${escapeHtml(board.seed.replace(/:v1$/, ''))}</dd></div></dl>${nextAction(board, demo)}<button type="button" data-action="restart">Replay this board</button></div>
+    <div><p class="eyebrow">Pattern complete</p><h2 id="win-title" tabindex="-1">The orchard is mirrored</h2><dl><div><dt>Moves</dt><dd>${state.moves}</dd></div><div><dt>Dew left</dt><dd>${state.dew} of 3</dd></div><div><dt>Seed</dt><dd>${escapeHtml(board.seed.replace(/:v1$/, ''))}</dd></div></dl>${nextAction(board, demo)}<button type="button" data-action="restart">Replay this board</button></div>
   </div>`;
 }
 
 function gamePage(board: Board, demo: boolean): string {
   const data = loadData(demo);
   let state = data.runs[board.id];
-  if (!state || state.boardId !== board.id || state.pieces.length !== board.inventory.length) state = createGame(board);
+  if (!state || state.boardId !== board.id || state.pieces.length !== board.inventory.length) {
+    state = createGame(board);
+    if (demo && board.id === 'archive-3') {
+      const sample = board.solution[0];
+      const piece = state.pieces.find((candidate) => candidate.kind === sample.kind);
+      if (piece) {
+        for (let turn = 0; turn < sample.rotation; turn += 1) state = rotatePiece(state, piece.id);
+        state = placePiece(state, board, piece.id, sample.anchor);
+      }
+    }
+  }
   const selectedPiece = state.pieces.find((piece) => piece.id === activeGame?.selectedPieceId && !piece.used)
     ?? state.pieces.find((piece) => !piece.used)
     ?? state.pieces[0];
@@ -287,7 +296,7 @@ function gamePage(board: Board, demo: boolean): string {
   return shell(main, demo);
 }
 
-function legalPage(kind: 'privacy' | 'terms'): string {
+function legalPage(kind: 'privacy' | 'terms', demo = false): string {
   if (kind === 'privacy') {
     setMetadata('Privacy — Mirror Orchard', 'How Mirror Orchard stores game progress in your browser.', '/privacy');
     return shell(`<main id="main" class="page-wrap legal-page"><header class="page-intro"><p class="eyebrow">Last updated 1 September 2026</p><h1 tabindex="-1">Privacy</h1><p>Mirror Orchard keeps your play private by default.</p></header>
@@ -295,7 +304,7 @@ function legalPage(kind: 'privacy' | 'terms'): string {
       <section><h2>Network requests</h2><p>The game loads its own code, fonts, and images from this site. It uses no accounts, advertising, analytics, or third-party scripts.</p></section>
       <section><h2>Demo data</h2><p>The demo uses a separate browser storage key. Reset demo or start for real to discard it.</p></section>
       <section><h2>Delete your data</h2><p>Clear this site’s storage in your browser settings. This removes all progress and settings.</p></section>
-    </main>`);
+    </main>`, demo);
   }
   setMetadata('Terms — Mirror Orchard', 'Terms for using the free Mirror Orchard browser game.', '/terms');
   return shell(`<main id="main" class="page-wrap legal-page"><header class="page-intro"><p class="eyebrow">Last updated 1 September 2026</p><h1 tabindex="-1">Terms</h1><p>You may play Mirror Orchard for free.</p></header>
@@ -303,7 +312,7 @@ function legalPage(kind: 'privacy' | 'terms'): string {
     <section><h2>Availability</h2><p>The game is provided as available. Features and teaching boards may change in later versions.</p></section>
     <section><h2>Your progress</h2><p>Progress is stored in your browser. Clearing browser data removes it, so keep any seed words you want to replay.</p></section>
     <section><h2>License</h2><p>The source code is available under the MIT License in the project repository.</p></section>
-  </main>`);
+  </main>`, demo);
 }
 
 function notFoundPage(): string {
@@ -313,6 +322,7 @@ function notFoundPage(): string {
 
 function currentBoardFromRoute(): { board: Board; demo: boolean } | null {
   const path = location.pathname;
+  const demo = new URLSearchParams(location.search).get('demo') === '1';
   if (path === '/demo') {
     const requested = Number(new URLSearchParams(location.search).get('board') ?? 3);
     return { board: archiveBoard(Number.isFinite(requested) ? requested : 3), demo: true };
@@ -321,10 +331,10 @@ function currentBoardFromRoute(): { board: Board; demo: boolean } | null {
   if (archiveMatch) return { board: archiveBoard(Number(archiveMatch[1])), demo: false };
   if (path === '/daily') {
     const date = new Date().toISOString().slice(0, 10);
-    return { board: seededBoard(date, 'daily'), demo: false };
+    return { board: seededBoard(date, 'daily'), demo };
   }
   const seedMatch = path.match(/^\/play\/seed\/(.+)$/);
-  if (seedMatch) return { board: seededBoard(decodeURIComponent(seedMatch[1])), demo: false };
+  if (seedMatch) return { board: seededBoard(decodeURIComponent(seedMatch[1])), demo };
   return null;
 }
 
@@ -332,16 +342,14 @@ function render(focusHeading = true): void {
   announcement = '';
   activeGame = null;
   const path = location.pathname;
-  if (new URLSearchParams(location.search).get('demo') === '1' && path !== '/demo') {
-    history.replaceState({}, '', '/demo');
-  }
+  const demo = new URLSearchParams(location.search).get('demo') === '1';
   const game = currentBoardFromRoute();
   if (game) app.innerHTML = gamePage(game.board, game.demo);
   else if (path === '/') app.innerHTML = landingPage();
-  else if (path === '/archive') app.innerHTML = archivePage();
-  else if (path === '/seeds') app.innerHTML = seedPage();
-  else if (path === '/privacy') app.innerHTML = legalPage('privacy');
-  else if (path === '/terms') app.innerHTML = legalPage('terms');
+  else if (path === '/archive') app.innerHTML = archivePage(demo);
+  else if (path === '/seeds') app.innerHTML = seedPage(demo);
+  else if (path === '/privacy') app.innerHTML = legalPage('privacy', demo);
+  else if (path === '/terms') app.innerHTML = legalPage('terms', demo);
   else app.innerHTML = notFoundPage();
   bindPage();
   if (focusHeading && path !== '/') requestAnimationFrame(() => document.querySelector<HTMLElement>('h1')?.focus());
@@ -377,7 +385,10 @@ function rerenderGame(focusCell?: string): void {
   app.innerHTML = gamePage(board, demo);
   if (activeGame) activeGame.selectedPieceId = selected ?? activeGame.selectedPieceId;
   bindPage();
-  if (focusCell) requestAnimationFrame(() => document.querySelector<HTMLElement>(`[data-cell="${focusCell}"]`)?.focus());
+  requestAnimationFrame(() => {
+    if (state.phase !== 'playing') document.querySelector<HTMLElement>('.game-overlay h2')?.focus();
+    else if (focusCell) document.querySelector<HTMLElement>(`[data-cell="${focusCell}"]`)?.focus();
+  });
 }
 
 function announce(message: string): void {
@@ -433,8 +444,6 @@ function performAction(action: string): void {
     activeGame.state = { ...activeGame.state, phase: 'paused' };
   } else if (action === 'resume') {
     activeGame.state = { ...activeGame.state, phase: 'playing' };
-  } else if (action === 'review') {
-    activeGame.state = { ...activeGame.state, phase: 'paused' };
   } else if (action === 'restart') {
     activeGame.state = createGame(activeGame.board);
     activeGame.selectedPieceId = activeGame.state.pieces[0].id;
@@ -498,10 +507,11 @@ function bindPage(): void {
       return;
     }
     input.setCustomValidity('');
-    const data = loadData(false);
+    const demo = new URLSearchParams(location.search).get('demo') === '1';
+    const data = loadData(demo);
     data.recentSeeds = [seed, ...data.recentSeeds.filter((item) => item !== seed)].slice(0, 8);
-    saveData(false, data);
-    navigate(`/play/seed/${encodeURIComponent(seed)}`);
+    saveData(demo, data);
+    navigate(`/play/seed/${encodeURIComponent(seed)}${demo ? '?demo=1' : ''}`);
   });
 }
 
