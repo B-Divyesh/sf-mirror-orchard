@@ -4,6 +4,12 @@ export const AXIS = 3;
 export type PieceKind = 'bud' | 'twig' | 'corner';
 export type Phase = 'playing' | 'paused' | 'won' | 'lost';
 
+export const SEED_PATTERN = /^[A-Za-z0-9 -]{1,48}$/;
+
+export function isValidSeed(seed: string): boolean {
+  return SEED_PATTERN.test(seed.trim());
+}
+
 export interface Cell {
   col: number;
   row: number;
@@ -226,7 +232,8 @@ export function archiveBoard(level: number): Board {
 }
 
 export function seededBoard(seed: string, mode: 'seed' | 'daily' = 'seed'): Board {
-  const cleaned = seed.trim().slice(0, 48) || 'green-glass';
+  const cleaned = seed.trim();
+  if (!isValidSeed(cleaned)) throw new Error('Seeds use 1–48 letters, numbers, spaces, or dashes.');
   const title = mode === 'daily' ? 'Today’s mirrored orchard' : `Seed: ${cleaned}`;
   return makeBoard(`${mode}:${cleaned}:v1`, 34, `${mode}-${encodeURIComponent(cleaned)}`, title);
 }

@@ -14,6 +14,13 @@
     "sandbox": "fresh /demo sample; place the supplied branches through the public UI"
   },
   {
+    "id": "completion-persist",
+    "claim": "Completed teaching boards stay recorded in the archive.",
+    "where": "archive, privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:completion-persist",
+    "sandbox": "fresh /demo sample; complete teaching board 3 and inspect its archive entry"
+  },
+  {
     "id": "restart-reset",
     "claim": "Restarting resets the current run.",
     "where": "pause and end screens",
@@ -22,10 +29,10 @@
   },
   {
     "id": "settings-persist",
-    "claim": "Game settings persist locally.",
+    "claim": "Sound and calm-motion settings persist locally.",
     "where": "game controls, README",
     "test": "npm run test:e2e -- --grep @claim:settings-persist",
-    "sandbox": "fresh /demo sample; enable calm motion and reload"
+    "sandbox": "fresh /demo sample; enable sound and calm motion, then reload"
   },
   {
     "id": "seed-reproducible",
@@ -49,6 +56,13 @@
     "sandbox": "fresh /demo sample; record every request during play and archive navigation"
   },
   {
+    "id": "privacy-no-tracking",
+    "claim": "The game has no ads, analytics, or leaderboards.",
+    "where": "landing page, privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:privacy-no-tracking",
+    "sandbox": "fresh /demo sample; record every request while playing and opening privacy information"
+  },
+  {
     "id": "demo-isolated",
     "claim": "Demo data uses a separate disposable storage area.",
     "where": "demo banner, privacy page, README",
@@ -70,6 +84,20 @@
     "sandbox": "dedicated fresh browser context; visit /demo, wait for its service worker, set offline, and reload"
   },
   {
+    "id": "run-recovery",
+    "claim": "An unfinished run reopens safely after a reload.",
+    "where": "landing page, privacy page, README",
+    "test": "npm run test:e2e -- --grep @claim:run-recovery",
+    "sandbox": "fresh /demo sample; plant a branch, reload, and verify the saved board reopens paused"
+  },
+  {
+    "id": "three-error-loss",
+    "claim": "Three invalid placements end the run.",
+    "where": "game help, README",
+    "test": "npm run test:e2e -- --grep @claim:three-error-loss",
+    "sandbox": "fresh /demo sample; make three invalid placements through the board UI"
+  },
+  {
     "id": "input-paths",
     "claim": "The game supports pointer, touch, and keyboard controls.",
     "where": "game help, README",
@@ -81,6 +109,6 @@
     "claim": "The board rendering loop targets 60 fps on a mid-range phone.",
     "where": "handoff performance notes",
     "test": "npm run test:e2e -- --grep @claim:frame-rate",
-    "sandbox": "fresh /demo sample in Chromium; measure 60 consecutive animation frames and require at least 45 fps"
+    "sandbox": "fresh 390 × 844 /demo sample in Chromium with 4× CPU throttling; measure 120 board highlight updates and require each warmed-up update to fit a 45 fps frame budget"
   }
 ]

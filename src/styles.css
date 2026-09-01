@@ -121,6 +121,8 @@ h3 { margin-bottom: 8px; font-size: 1.35rem; }
   display: inline-flex;
   gap: 10px;
   align-items: center;
+  min-width: 44px;
+  min-height: 44px;
   color: var(--paper);
   font-size: 1.2rem;
   text-decoration: none;
@@ -136,6 +138,13 @@ h3 { margin-bottom: 8px; font-size: 1.35rem; }
   align-items: center;
 }
 
+.site-header nav a,
+.site-footer nav a {
+  display: inline-flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
+}
 .site-header nav a { color: var(--mist); font-size: 0.9rem; font-weight: 700; text-decoration: none; }
 .site-header nav a:hover { color: var(--paper); }
 
@@ -154,8 +163,18 @@ h3 { margin-bottom: 8px; font-size: 1.35rem; }
 }
 
 .demo-actions { display: inline-flex; gap: 10px; align-items: center; }
-.demo-banner button { min-height: 36px; padding: 6px 12px; color: var(--sprout-ink); border-color: rgba(8, 33, 24, 0.45); background: transparent; }
-.demo-banner a { color: var(--sprout-ink); font-weight: 800; }
+.demo-banner button,
+.demo-banner a {
+  display: inline-flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px 12px;
+  color: var(--sprout-ink);
+  border-color: rgba(8, 33, 24, 0.45);
+}
+.demo-banner button { background: transparent; }
+.demo-banner a { font-weight: 800; }
 
 .network-note, .error-note {
   margin: 0;
@@ -320,6 +339,7 @@ h3 { margin-bottom: 8px; font-size: 1.35rem; }
 .seed-form > div { display: grid; grid-template-columns: 1fr auto; gap: 12px; }
 .seed-form input { min-width: 0; min-height: 52px; padding: 10px 16px; color: var(--paper); background: rgba(0,0,0,0.3); border: 1px solid rgba(244,241,220,0.5); border-radius: 10px; }
 .seed-form p { margin: 10px 0 0; color: var(--mist); font-size: 0.85rem; }
+.seed-form .seed-error { min-height: 1.55em; color: var(--danger); font-weight: 700; }
 .seed-page h2 { font-size: 2.4rem; }
 .seed-list { padding: 0; margin: 0; list-style: none; border-top: 1px solid var(--line); }
 .seed-list a { display: flex; justify-content: space-between; padding: 18px 4px; color: var(--paper); border-bottom: 1px solid var(--line); text-decoration: none; }
@@ -377,7 +397,7 @@ kbd { padding: 1px 5px; margin-top: 3px; color: var(--mist); background: rgba(0,
 .setting-row button { flex: 1; padding-inline: 8px; font-size: 0.74rem; }
 .setting-row button[aria-pressed='true'] { color: var(--sprout-ink); background: var(--sprout); }
 
-.game-overlay { position: absolute; z-index: 10; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(4,19,22,0.8); border-radius: inherit; backdrop-filter: blur(8px); }
+.game-overlay { position: fixed; z-index: 90; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(4,19,22,0.8); backdrop-filter: blur(8px); }
 .game-overlay > div { width: min(100%, 520px); padding: clamp(24px, 5vw, 48px); background: var(--deep); border: 1px solid var(--line); border-radius: 24px 24px 4px 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.4); }
 .game-overlay h2 { font-size: clamp(2rem, 5vw, 3.3rem); }
 .game-overlay button, .game-overlay .primary-action { width: 100%; margin-top: 10px; }
@@ -420,10 +440,10 @@ kbd { padding: 1px 5px; margin-top: 3px; color: var(--mist); background: rgba(0,
   .wordmark span { display: none; }
   .wordmark .leaf-mark { width: 40px; height: 40px; }
   .site-header nav { gap: 13px; flex-wrap: wrap; justify-content: flex-end; max-width: 280px; }
-  .site-header nav a { min-height: 38px; padding: 8px 0; }
+  .site-header nav a { min-height: 44px; padding: 8px 0; }
   .demo-banner { align-items: flex-start; justify-content: space-between; padding: 10px 16px; }
   .demo-banner > span:first-child { max-width: 19ch; }
-  .demo-actions { align-items: flex-end; flex-direction: column; gap: 2px; }
+  .demo-actions { align-items: flex-end; flex-direction: column; gap: 4px; }
   .hero { min-height: 990px; margin-top: -116px; padding-top: 150px; }
   .hero-scene { inset-inline: -16px; height: 100%; border-radius: 0 0 24px 24px; }
   .hero-scene::after { background: linear-gradient(to bottom, rgba(6,25,29,0.72), rgba(6,25,29,0.4) 38%, var(--ink) 90%); }

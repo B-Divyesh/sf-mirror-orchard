@@ -12,9 +12,11 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: 'npm run preview',
+    // Claim commands must be independently runnable from a clean install. This
+    // always serves the just-built production output, never source or stale dist.
+    command: 'npm run build && npm run preview',
     port: 4173,
-    reuseExistingServer: true,
+    reuseExistingServer: false,
     timeout: 20_000
   }
 });

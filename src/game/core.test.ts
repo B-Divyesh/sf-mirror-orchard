@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { archiveBoard, createGame, placePiece, seededBoard, solveBoard } from './core';
+import { archiveBoard, createGame, isValidSeed, placePiece, seededBoard, solveBoard } from './core';
 
 describe('deterministic orchard core', () => {
   it('builds the same personal seed every time', () => {
@@ -22,5 +22,13 @@ describe('deterministic orchard core', () => {
       state = placePiece(state, board, 'piece-0', { col: 6, row: 6 });
     }
     expect(state.phase).toBe('lost');
+  });
+
+  it('accepts only the documented personal-seed characters', () => {
+    expect(isValidSeed('mint-window 24')).toBe(true);
+    expect(isValidSeed('x'.repeat(48))).toBe(true);
+    expect(isValidSeed('')).toBe(false);
+    expect(isValidSeed('🚫/bad_seed!')).toBe(false);
+    expect(() => seededBoard('🚫/bad_seed!')).toThrow(/Seeds use/);
   });
 });

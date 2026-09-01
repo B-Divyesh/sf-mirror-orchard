@@ -13,7 +13,7 @@ One-click demo: <https://mirror-orchard.sociobot.in/demo>
 
 - 40 ordered teaching boards with buds, twigs, corners, and glass stones
 - One stable UTC-dated daily board
-- Reproducible boards from any 1–48 character seed
+- Reproducible boards from any 1–48 character seed using letters, numbers, spaces, or dashes
 - Pointer, touch, and keyboard controls
 - Persistent runs, completed boards, sound, and calm-motion settings
 - Offline reload after the first visit

@@ -7,6 +7,7 @@ import {
   archiveBoard,
   cellKey,
   createGame,
+  isValidSeed,
   parseCell,
   placePiece,
   reflectedCells,
@@ -188,8 +189,9 @@ function seedPage(demo = false): string {
     <header class="page-intro"><p class="eyebrow">Reproducible boards</p><h1 tabindex="-1">Grow a puzzle from any seed</h1><p>The same letters always make the same board and branch tray.</p></header>
     <form class="seed-form" data-seed-form>
       <label for="seed-input">Seed word or phrase</label>
-      <div><input id="seed-input" name="seed" required maxlength="48" autocomplete="off" value="mint-window" /><button class="primary-action" type="submit">Plant this seed</button></div>
+      <div><input id="seed-input" name="seed" required maxlength="48" pattern="[A-Za-z0-9 -]{1,48}" aria-describedby="seed-help seed-error" autocomplete="off" value="mint-window" /><button class="primary-action" type="submit">Plant this seed</button></div>
       <p id="seed-help">Use 1–48 letters, numbers, spaces, or dashes.</p>
+      <p id="seed-error" class="seed-error" role="alert"></p>
     </form>
     <section aria-labelledby="recent-seeds"><h2 id="recent-seeds">Recent seeds</h2>${recent}</section>
   </main>`, demo);
@@ -232,13 +234,13 @@ function nextAction(board: Board, demo: boolean): string {
 function endPanel(game: ActiveGame): string {
   const { board, state, demo } = game;
   if (state.phase === 'playing') return '';
-  if (state.phase === 'paused') return `<div class="game-overlay" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+  if (state.phase === 'paused') return `<div class="game-overlay" data-game-dialog role="dialog" aria-modal="true" aria-labelledby="pause-title">
     <div><p class="eyebrow">Board paused</p><h2 id="pause-title" tabindex="-1">Your planting is saved</h2><p>Resume when you are ready.</p><button class="primary-action" type="button" data-action="resume">Resume board</button><button type="button" data-action="restart">Restart board</button></div>
   </div>`;
-  if (state.phase === 'lost') return `<div class="game-overlay" role="dialog" aria-modal="true" aria-labelledby="lost-title">
+  if (state.phase === 'lost') return `<div class="game-overlay" data-game-dialog role="dialog" aria-modal="true" aria-labelledby="lost-title">
     <div><p class="eyebrow">No dew left</p><h2 id="lost-title" tabindex="-1">This orchard withered</h2><p>Restart with a full tray and three dew drops.</p><button class="primary-action" type="button" data-action="restart">Restart board</button></div>
   </div>`;
-  return `<div class="game-overlay win-overlay" role="dialog" aria-modal="true" aria-labelledby="win-title">
+  return `<div class="game-overlay win-overlay" data-game-dialog role="dialog" aria-modal="true" aria-labelledby="win-title">
     <div><p class="eyebrow">Pattern complete</p><h2 id="win-title" tabindex="-1">The orchard is mirrored</h2><dl><div><dt>Moves</dt><dd>${state.moves}</dd></div><div><dt>Dew left</dt><dd>${state.dew} of 3</dd></div><div><dt>Seed</dt><dd>${escapeHtml(board.seed.replace(/:v1$/, ''))}</dd></div></dl>${nextAction(board, demo)}<button type="button" data-action="restart">Replay this board</button></div>
   </div>`;
 }
@@ -246,6 +248,8 @@ function endPanel(game: ActiveGame): string {
 function gamePage(board: Board, demo: boolean): string {
   const data = loadData(demo);
   let state = data.runs[board.id];
+  const recoveringRun = !activeGame && state?.phase === 'playing';
+  if (recoveringRun && state) state = { ...state, phase: 'paused' };
   if (!state || state.boardId !== board.id || state.pieces.length !== board.inventory.length) {
     state = createGame(board);
     if (demo && board.id === 'archive-3') {
@@ -261,6 +265,10 @@ function gamePage(board: Board, demo: boolean): string {
     ?? state.pieces.find((piece) => !piece.used)
     ?? state.pieces[0];
   activeGame = { board, state, selectedPieceId: selectedPiece.id, demo };
+  if (recoveringRun) {
+    data.runs[board.id] = state;
+    saveData(demo, data);
+  }
   const daily = board.id.startsWith('daily-');
   const seed = board.id.startsWith('seed-');
   const title = demo ? 'Demo — Mirror Orchard' : daily ? 'Daily puzzle — Mirror Orchard' : seed ? 'Personal seed — Mirror Orchard' : `${board.title} — Mirror Orchard`;
@@ -281,7 +289,6 @@ function gamePage(board: Board, demo: boolean): string {
       <div class="board-frame">
         <div class="mirror-labels" aria-hidden="true"><span>Plant</span><span>Mirror channel</span><span>Reflection</span></div>
         ${boardMarkup(board, state)}
-        ${endPanel(activeGame)}
       </div>
       <aside class="game-tools" aria-label="Branch tray and controls">
         <div class="tray-heading"><div><p class="eyebrow">Branch tray</p><h2>Choose one branch</h2></div><span>${available} left</span></div>
@@ -295,6 +302,7 @@ function gamePage(board: Board, demo: boolean): string {
         <div class="setting-row"><button type="button" data-action="sound" aria-pressed="${data.settings.sound}">Sound ${data.settings.sound ? 'on' : 'off'}</button><button type="button" data-action="calm-motion" aria-pressed="${data.settings.calmMotion}">Calm motion ${data.settings.calmMotion ? 'on' : 'off'}</button></div>
       </aside>
     </section>
+    ${endPanel(activeGame)}
   </main>`;
   return shell(main, demo);
 }
@@ -369,7 +377,11 @@ function render(focusHeading = true): void {
   else if (path === '/terms') app.innerHTML = legalPage('terms', demo);
   else app.innerHTML = notFoundPage();
   bindPage();
-  if (focusHeading && path !== '/') requestAnimationFrame(() => document.querySelector<HTMLElement>('h1')?.focus());
+  requestAnimationFrame(() => {
+    const dialogHeading = document.querySelector<HTMLElement>('.game-overlay h2');
+    if (dialogHeading) dialogHeading.focus();
+    else if (focusHeading && path !== '/') document.querySelector<HTMLElement>('h1')?.focus();
+  });
 }
 
 function navigate(path: string): void {
@@ -405,6 +417,39 @@ function rerenderGame(focusCell?: string): void {
   requestAnimationFrame(() => {
     if (state.phase !== 'playing') document.querySelector<HTMLElement>('.game-overlay h2')?.focus();
     else if (focusCell) document.querySelector<HTMLElement>(`[data-cell="${focusCell}"]`)?.focus();
+  });
+}
+
+function bindGameDialog(): void {
+  const dialog = document.querySelector<HTMLElement>('[data-game-dialog]');
+  if (!dialog) return;
+
+  document.querySelectorAll<HTMLElement>('.demo-banner, .network-note, .site-header, .game-heading, .game-stage, .site-footer').forEach((area) => {
+    area.inert = true;
+    area.setAttribute('aria-hidden', 'true');
+  });
+
+  dialog.addEventListener('keydown', (event) => {
+    if (event.key === 'Tab') {
+      const controls = [...dialog.querySelectorAll<HTMLElement>('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+        .filter((element) => !element.hasAttribute('inert'));
+      if (controls.length) {
+        const first = controls[0];
+        const last = controls.at(-1)!;
+        if (event.shiftKey && (document.activeElement === first || !dialog.contains(document.activeElement))) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && (document.activeElement === last || !dialog.contains(document.activeElement))) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    } else if (event.key === 'Escape' && activeGame?.state.phase === 'paused') {
+      event.preventDefault();
+      performAction('resume');
+    }
+    // Modal shortcuts must never reach the covered game controls.
+    event.stopPropagation();
   });
 }
 
@@ -515,22 +560,41 @@ function bindPage(): void {
     });
   });
   const seedForm = document.querySelector<HTMLFormElement>('[data-seed-form]');
+  const seedInput = seedForm?.elements.namedItem('seed') as HTMLInputElement | undefined;
+  const seedError = document.querySelector<HTMLElement>('#seed-error');
+  seedInput?.addEventListener('input', () => {
+    seedInput.setCustomValidity('');
+    seedInput.removeAttribute('aria-invalid');
+    if (seedError) seedError.textContent = '';
+  });
+  seedInput?.addEventListener('invalid', () => {
+    const message = 'Use 1–48 letters, numbers, spaces, or dashes.';
+    seedInput.setCustomValidity(message);
+    seedInput.setAttribute('aria-invalid', 'true');
+    if (seedError) seedError.textContent = message;
+  });
   seedForm?.addEventListener('submit', (event) => {
     event.preventDefault();
     const input = seedForm.elements.namedItem('seed') as HTMLInputElement;
     const seed = input.value.trim();
-    if (!seed) {
-      input.setCustomValidity('Enter a seed word or phrase.');
+    if (!isValidSeed(seed)) {
+      const message = 'Use 1–48 letters, numbers, spaces, or dashes.';
+      input.setCustomValidity(message);
+      input.setAttribute('aria-invalid', 'true');
+      if (seedError) seedError.textContent = message;
       input.reportValidity();
       return;
     }
     input.setCustomValidity('');
+    input.removeAttribute('aria-invalid');
+    if (seedError) seedError.textContent = '';
     const demo = new URLSearchParams(location.search).get('demo') === '1';
     const data = loadData(demo);
     data.recentSeeds = [seed, ...data.recentSeeds.filter((item) => item !== seed)].slice(0, 8);
     saveData(demo, data);
     navigate(`/play/seed/${encodeURIComponent(seed)}${demo ? '?demo=1' : ''}`);
   });
+  bindGameDialog();
 }
 
 window.addEventListener('popstate', () => render(true));
