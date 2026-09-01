@@ -52,10 +52,23 @@ Performed after a clean `npm ci`:
 
 ## Deploy and live checks
 
-Deployment and final live status/header checks are recorded after the repair
-commit is pushed. The Static Web Apps response-policy regression test verifies
-that known routes rewrite to the SPA and unknown routes use `/404.html` through
-the platform's `404` response override (without an invalid rewrite/status pair).
+Repair commit `44e9c1bee8b3c617b903ccde5df8da92a066a239` was pushed to `main`
+and deployed to Static Web Apps production on 2026-09-01 UTC. The deployed
+bundle is the same as the local production output: live
+`assets/index-D9-p2G-B.js` and `dist/assets/index-D9-p2G-B.js` both hash to
+`0610c5abe2469e1dd68ac8c9c71d62db623e876fe706174f4842476173300507`.
+
+- `https://mirror-orchard.sociobot.in/` and `/demo` return HTTP 200.
+- `https://mirror-orchard.sociobot.in/missing-page` returns HTTP 404 and the
+  designed not-found page.
+- Live `/` and `/demo` passed `verify-url.sh` with no console errors and the
+  same title/lang/h1/main/alt/button checks as local.
+- Live responses send CSP with `frame-ancestors 'none'`, `nosniff`, strict
+  referrer policy, permissions policy, and HSTS.
+
+The Static Web Apps response-policy regression test also verifies that known
+routes rewrite to the SPA and unknown routes use `/404.html` through the
+platform's `404` response override (without an invalid rewrite/status pair).
 
 ## Known gaps
 
