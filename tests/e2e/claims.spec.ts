@@ -55,7 +55,14 @@ test('@claim:complete-round a demo puzzle reaches its end screen', async ({ page
 test('@claim:completion-persist completing a teaching board stays recorded in the archive', async ({ page }) => {
   await enterDemo(page);
   await solveDemoBoard(page);
-  await page.getByRole('link', { name: 'Plant board 4' }).click();
+  const nextBoard = page.getByRole('link', { name: 'Plant board 4' });
+  await expect(nextBoard).toBeVisible();
+  const centerLinePointerEvents = await page.locator('.win-overlay').evaluate((overlay) => getComputedStyle(overlay, '::before').pointerEvents);
+  expect(centerLinePointerEvents).toBe('none');
+  const box = await nextBoard.boundingBox();
+  if (!box) throw new Error('The next-board action has no pointer target.');
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  await expect(page).toHaveURL(/\/demo\?board=4$/);
   await page.getByRole('link', { name: 'Archive' }).click();
   await expect(page.getByRole('link', { name: /03 Build both halves Complete/ })).toBeVisible();
 });
@@ -164,6 +171,12 @@ test('@claim:offline-reload demo reloads offline after the first visit', async (
   await context.close();
 });
 
+test('service worker precache omits deployment-only configuration', async ({ page }) => {
+  const source = await page.request.get('/sw.js').then((response) => response.text());
+  expect(source).not.toContain('/staticwebapp.config.json');
+  expect(source).toContain('cache.addAll(PRECACHE');
+});
+
 test('@claim:run-recovery an unfinished run returns safely paused after reload', async ({ page }) => {
   await enterDemo(page);
   const placement = archiveBoard(3).solution[1];
@@ -221,6 +234,17 @@ test('routes have one h1, no serious axe issues, and fit 390px', async ({ browse
   await context.close();
 });
 
+test('the landing board preview is visible in the 390 by 844 first viewport', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  await page.goto('/');
+  const board = await page.locator('.hero-board').boundingBox();
+  expect(board).not.toBeNull();
+  expect(board!.y).toBeLessThan(844);
+  expect(board!.y + Math.min(board!.height, 44)).toBeGreaterThan(0);
+  await context.close();
+});
+
 test('@claim:input-paths pointer, touch, and keyboard controls work', async ({ browser }) => {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
   const page = await context.newPage();
@@ -272,12 +296,16 @@ test('persistent mobile controls meet the 44px touch-target baseline', async ({ 
   await context.close();
 });
 
-test('seed input rejects punctuation and invalid seed URLs show the not-found page', async ({ page }) => {
+test('seed input rejects punctuation and valid seed URLs stay reproducible', async ({ page }) => {
   await page.goto('/seeds');
   await page.getByLabel('Seed word or phrase').fill('🚫/bad_seed!');
   await page.getByRole('button', { name: 'Plant this seed' }).click();
   await expect(page.locator('#seed-error')).toHaveText('Use 1–48 letters, numbers, spaces, or dashes.');
   await expect(page.getByLabel('Seed word or phrase')).toHaveAttribute('aria-invalid', 'true');
+  await page.getByLabel('Seed word or phrase').fill('mist-fern');
+  await page.getByRole('button', { name: 'Plant this seed' }).click();
+  await expect(page).toHaveURL(/\/seeds\?seed=mist-fern$/);
+  await expect(page.locator('.game-board')).toBeVisible();
   await page.goto(`/play/seed/${encodeURIComponent('🚫/bad_seed!')}`);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Page not found');
 });
@@ -292,6 +320,8 @@ test('static response policy reserves real 404s for unknown application paths', 
   };
   expect(config.navigationFallback.exclude).toContain('/*');
   expect(config.responseOverrides['404']).toEqual({ rewrite: '/404.html' });
-  expect(config.routes.filter((route) => route.rewrite === '/index.html').map((route) => route.route)).toEqual(expect.arrayContaining(['/demo', '/archive', '/play/archive/*', '/play/seed/*']));
+  const appRoutes = config.routes.filter((route) => route.rewrite === '/index.html').map((route) => route.route);
+  expect(appRoutes).toEqual(expect.arrayContaining(['/demo', '/archive', '/play/archive/*']));
+  expect(appRoutes).not.toContain('/play/seed/*');
   expect(config.routes.some((route) => route.rewrite && route.statusCode)).toBe(false);
 });

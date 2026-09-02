@@ -9,7 +9,9 @@ async function listFiles(directory) {
   const nested = await Promise.all(entries.map(async (entry) => {
     const path = join(directory, entry.name);
     if (entry.isDirectory()) return listFiles(path);
-    if (entry.name === 'sw.js' || entry.name.endsWith('.map')) return [];
+    // Deployment configuration is consumed by Static Web Apps and is not
+    // served at runtime. Precache only assets the browser can actually fetch.
+    if (entry.name === 'sw.js' || entry.name === 'staticwebapp.config.json' || entry.name.endsWith('.map')) return [];
     return [path];
   }));
   return nested.flat();

@@ -54,6 +54,18 @@ function routeLink(path: string, label: string, className = ''): string {
   return `<a href="${path}" data-route class="${className}" ${accessibleName}>${label}</a>`;
 }
 
+/**
+ * Personal seeds live in a query string rather than a catch-all path. Static
+ * Web Apps cannot validate a wildcard path before rewriting it to the SPA;
+ * keeping the route fixed means malformed old /play/seed/... URLs get the
+ * platform's real 404 response.
+ */
+function seedPath(seed: string, demo: boolean): string {
+  const params = new URLSearchParams({ seed });
+  if (demo) params.set('demo', '1');
+  return `/seeds?${params.toString()}`;
+}
+
 function shell(main: string, demo = false): string {
   const network = navigator.onLine ? '' : '<p class="network-note" role="status">You are offline. Saved boards remain playable.</p>';
   const demoBanner = demo ? `<aside class="demo-banner" aria-label="Demo controls">
@@ -183,7 +195,7 @@ function seedPage(demo = false): string {
   setMetadata('Personal seeds — Mirror Orchard', 'Enter a word or phrase to create a reproducible mirrored orchard.', '/seeds');
   const data = loadData(demo);
   const recent = data.recentSeeds.length
-    ? `<ul class="seed-list">${data.recentSeeds.map((seed) => `<li>${routeLink(`/play/seed/${encodeURIComponent(seed)}${demo ? '?demo=1' : ''}`, `<span>${escapeHtml(seed)}</span><span>Replay →</span>`)}</li>`).join('')}</ul>`
+    ? `<ul class="seed-list">${data.recentSeeds.map((seed) => `<li>${routeLink(seedPath(seed, demo), `<span>${escapeHtml(seed)}</span><span>Replay →</span>`)}</li>`).join('')}</ul>`
     : '<div class="empty-state"><p>Your replayed seeds will appear here.</p><p>Enter a word above to make the first one.</p></div>';
   return shell(`<main id="main" class="page-wrap seed-page">
     <header class="page-intro"><p class="eyebrow">Reproducible boards</p><h1 tabindex="-1">Grow a puzzle from any seed</h1><p>The same letters always make the same board and branch tray.</p></header>
@@ -348,10 +360,11 @@ function currentBoardFromRoute(): { board: Board; demo: boolean } | null {
     const date = new Date().toISOString().slice(0, 10);
     return { board: seededBoard(date, 'daily'), demo };
   }
-  const seedMatch = path.match(/^\/play\/seed\/(.+)$/);
-  if (seedMatch) {
+  if (path === '/seeds') {
+    const seed = new URLSearchParams(location.search).get('seed');
+    if (!seed) return null;
     try {
-      return { board: seededBoard(decodeURIComponent(seedMatch[1])), demo };
+      return { board: seededBoard(seed), demo };
     } catch {
       return null;
     }
@@ -592,7 +605,7 @@ function bindPage(): void {
     const data = loadData(demo);
     data.recentSeeds = [seed, ...data.recentSeeds.filter((item) => item !== seed)].slice(0, 8);
     saveData(demo, data);
-    navigate(`/play/seed/${encodeURIComponent(seed)}${demo ? '?demo=1' : ''}`);
+    navigate(seedPath(seed, demo));
   });
   bindGameDialog();
 }

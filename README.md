@@ -57,6 +57,7 @@ The browser suite uses Playwright 1.58.2. In the factory worker, it reads the pr
 - `/archive` — all 40 teaching boards
 - `/daily` — today’s deterministic puzzle
 - `/seeds` — personal seed entry and recent seeds
+- `/seeds?seed=mint-window` — a reproducible personal-seed link
 - `/privacy` and `/terms` — storage and use terms
 
 ## Product records

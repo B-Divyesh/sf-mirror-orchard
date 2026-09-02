@@ -405,7 +405,7 @@ kbd { padding: 1px 5px; margin-top: 3px; color: var(--mist); background: rgba(0,
 .game-overlay dl div { min-width: 0; padding: 12px; background: rgba(244,241,220,0.05); border-radius: 10px; }
 .game-overlay dt { color: var(--mist); font-size: 0.7rem; text-transform: uppercase; }
 .game-overlay dd { overflow: hidden; margin: 4px 0 0; color: var(--paper); font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
-.win-overlay::before { content: ''; position: absolute; top: 7%; bottom: 7%; left: 50%; width: 2px; background: var(--sprout); box-shadow: 0 0 28px var(--sprout); animation: dewline 600ms ease-out both; }
+.win-overlay::before { content: ''; position: absolute; top: 7%; bottom: 7%; left: 50%; width: 2px; pointer-events: none; background: var(--sprout); box-shadow: 0 0 28px var(--sprout); animation: dewline 600ms ease-out both; }
 
 .legal-page { max-width: 900px; }
 .legal-page section { padding: 32px 0; border-top: 1px solid var(--line); }
@@ -444,16 +444,17 @@ kbd { padding: 1px 5px; margin-top: 3px; color: var(--mist); background: rgba(0,
   .demo-banner { align-items: flex-start; justify-content: space-between; padding: 10px 16px; }
   .demo-banner > span:first-child { max-width: 19ch; }
   .demo-actions { align-items: flex-end; flex-direction: column; gap: 4px; }
-  .hero { min-height: 990px; margin-top: -116px; padding-top: 150px; }
+  .hero { gap: 16px; min-height: 800px; margin-top: -116px; padding-top: 126px; padding-bottom: 24px; }
   .hero-scene { inset-inline: -16px; height: 100%; border-radius: 0 0 24px 24px; }
   .hero-scene::after { background: linear-gradient(to bottom, rgba(6,25,29,0.72), rgba(6,25,29,0.4) 38%, var(--ink) 90%); }
-  .hero-copy { padding: 24px; }
-  .hero h1 { font-size: clamp(2.55rem, 13vw, 4.2rem); }
-  .hero-action { align-items: stretch; flex-direction: column; }
+  .hero-copy { padding: 18px; }
+  .hero h1 { margin-bottom: 12px; font-size: clamp(2.25rem, 11vw, 3.3rem); }
+  .hero-lead { margin-bottom: 16px; }
+  .hero-action { gap: 8px; align-items: stretch; flex-direction: column; margin-bottom: 16px; }
   .hero-action .primary-action { width: 100%; }
   .hero-action span { max-width: none; }
-  .plain-facts { display: grid; gap: 8px; }
-  .hero-board { width: 85%; padding: 18px; transform: none; }
+  .plain-facts { display: grid; gap: 6px; padding-top: 14px; }
+  .hero-board { width: 100%; padding: 12px; transform: none; }
   .landing-section { padding: 72px 0; }
   .limits { width: calc(100% - 32px); padding: 56px 24px; }
   .site-footer { grid-template-columns: 1fr; }
