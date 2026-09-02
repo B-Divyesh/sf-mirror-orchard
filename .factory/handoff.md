@@ -1,34 +1,43 @@
-# Mirror Orchard adversarial review 2 handoff
+# Mirror Orchard polish 2 handoff
 
-## Status: FAIL — two non-blocking findings
+## Status: complete
 
-Reviewed commit `fb918968f25c1bb2f9914443a3c4711dec0792f3` and the matching live
-deployment at <https://mirror-orchard.sociobot.in> on 2026-09-02 UTC. The full
-report is `.factory/review-2.md`.
+Perfection-loop round 2 is deployed at <https://mirror-orchard.sociobot.in>. Repair implementation commit: `b88258c3a66a8bf70fe29e9569701c5505333265`.
 
-No product code was changed. The review found:
+## What changed
 
-1. The global “Skip to game” label is inaccurate on archive, seed, legal, and
-   404 routes; use “Skip to main content” and test focus behavior.
-2. `sitemap.xml` omits the finite `/play/archive/1` through
-   `/play/archive/40` routes; add them and test sitemap/route parity.
+- Changed every skip link, including the real 404, to **Skip to main content** and made keyboard activation focus `main#main` on every route.
+- Added all 40 finite teaching-board routes to `sitemap.xml` and added exact route/sitemap parity coverage.
+- Rechecked every F-1 finding and all earlier accepted repairs; none regressed.
+- Updated the catalog description to a 99-character, verb-first sentence.
+- Recorded the full finding map and evidence in `.factory/polish-2.md`.
 
-## Verification completed
+## How to run and verify
 
-- Fresh live first reads at 390 x 844 touch and 1440 x 1000 desktop.
-- One-click demo, reset, real/demo storage isolation, same-origin request log,
-  and hosted offline reload.
-- All 19 exact claim commands from a clean clone: PASS.
-- `npm test`: PASS, 4 unit tests and 29 Chromium tests.
-- `npm run build`: PASS; `dist/` produced.
-- Live route/metadata crawl, 61-link crawl, designed 404 and boundary checks,
-  route focus/back behavior, eight-route Axe scan, and supplied URL verifier.
-- Every review-1, polish-1, and handoff finding rechecked in live behavior and
-  source; all remain fixed.
-- Live index, JavaScript, and CSS hashes match the clean build.
+```sh
+npm ci
+npm test
+npm run build
+npm run preview
+```
 
-## Next step
+Open <http://localhost:4173>. Use <http://localhost:4173/?demo=1> for the clean, isolated sample.
 
-Repair F-2-1 and F-2-2 exactly as specified in `.factory/review-2.md`, add the
-two regression checks, and rerun the full review checklist. Zero findings are
-required for PASS.
+For claims, run each `test` command in `.factory/claims.json`. There are 19 declarations and exactly 19 unique `@claim:<id>` tags.
+
+## Exact evidence
+
+- Clean clone `/tmp/mirror-orchard-clean.6VF21t`: `npm ci` passed with 0 vulnerabilities; all 19 claim commands passed independently.
+- `npm test`: 4 unit and 30 Chromium tests passed.
+- `npm run build`: `dist/` produced; JS 33.84 KB raw / 11.84 KB gzip; CSS 23.30 KB raw / 5.90 KB gzip; mobile hero 77,382 bytes.
+- Live route audit: nine routes, including a real HTTP 404, had one h1, one main, the exact skip label, working skip focus, no overflow, no console errors, and zero serious/critical Axe violations.
+- Live sitemap audit: 47 entries, including `/play/archive/1` through `/play/archive/40`; every entry returned HTTP 200.
+- Live demo audit: board 3 opened with boards 1 and 2 complete; reset worked; exit discarded only demo storage; requests stayed same-origin; offline reload restored the sample.
+- Live History API audit: Back focused the landing h1 and populated the polite announcement.
+- Live Lighthouse mobile: 98 performance, 100 accessibility, 100 best practices, 100 SEO; LCP 1.6 s, CLS 0.062, TBT 100 ms.
+- Screenshots and machine-readable reports: [polish-2-assets](polish-2-assets/). The skip-link proof is [live-skip-link.png](polish-2-assets/live-skip-link.png).
+- Deployment `803c78af-bc53-4eb2-9f00-122752e7e143` succeeded on the existing `sf-mirror-orchard` Static Web App; <https://mirror-orchard.sociobot.in> returned HTTP 200.
+
+## Known gaps and next steps
+
+None. All findings in `.factory/review-1.md` and `.factory/review-2.md` are resolved and verified on the deployed site.

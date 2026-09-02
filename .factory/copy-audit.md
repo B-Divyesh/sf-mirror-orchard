@@ -7,7 +7,7 @@ Checked 2026-09-02. Counts treat hyphenated terms and numerals as one word. No l
 | 40 teaching boards · one daily puzzle | 7 | — |
 | Learn a symmetry puzzle at your pace | 7 | — |
 | For visual puzzle players who want practice boards before the daily challenge. | 12 | — |
-| Try it with sample data | 6 | — |
+| Try it with sample data | 5 | — |
 | Opens teaching board 3 with two boards complete. | 8 | Tested by `@claim:demo-sample-state` |
 | 40 teaching boards | 3 | — |
 | Works offline after your first visit | 6 | Tested by `@claim:offline-reload` |
@@ -36,6 +36,9 @@ Checked 2026-09-02. Counts treat hyphenated terms and numerals as one word. No l
 | Your play stays on this device | 6 | Tested by `@claim:local-only` |
 | The game stores completed boards, open runs, settings, and recent seeds in your browser. | 14 | Tested by persistence claims |
 | There are no accounts, ads, leaderboards, payments, or third-party scripts. | 10 | Tested by `@claim:privacy-no-tracking` and `@claim:free-no-account` |
+| Mirror Orchard. | 2 | — |
+| Plant reflected branch puzzles at your pace. | 7 | — |
+| Version 1.0 · Landscape generated for this game with the factory image model. | 13 | — |
 
 ## Terminology
 
@@ -50,4 +53,4 @@ Checked 2026-09-02. Counts treat hyphenated terms and numerals as one word. No l
 | Stored play state | progress |
 | Isolated sample state | demo |
 
-Catalog description: “Plant mirrored orchards across 40 teaching boards, a daily puzzle, and replayable personal seeds.” It starts with a verb and is 95 characters.
+Catalog description: “Learn a mirrored planting puzzle through 40 teaching boards, one daily board, and replayable seeds.” It starts with a verb and is 99 characters.
