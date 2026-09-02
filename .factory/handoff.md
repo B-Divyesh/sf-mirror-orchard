@@ -2,9 +2,8 @@
 
 ## Repair status
 
-Repaired the release blockers documented in `verification-2.md`. The source
-is buildable and committed; deployment verification is recorded below after
-the Static Web Apps publish completes.
+Repaired the release blockers documented in `verification-2.md` and deployed
+the production artifact from repair commit `e69d9ce` on 2026-09-02 UTC.
 
 ## What changed
 
@@ -66,7 +65,23 @@ npm run preview
 The static artifact is `dist/`. Pushing `main` publishes the configured
 Static Web Apps deployment for `mirror-orchard.sociobot.in`.
 
+## Hosted verification
+
+Published `dist/` to the product-owned `sf-mirror-orchard` Static Web App with
+`swa deploy ./dist --env production`. On
+`https://mirror-orchard.sociobot.in`:
+
+- `/` and `/demo` returned 200 and passed `verify-url.sh` with no console
+  errors, a title, `lang`, one `<h1>`, a main landmark, and no missing image
+  alt text.
+- `/play/seed/%F0%9F%9A%AB%2Fbad_seed!` returned a real HTTP 404 and rendered
+  the designed not-found page.
+- The active service worker reached `activated`, controlled the demo page, and
+  served a playable offline reload of `/demo`. Its published source contains
+  no `staticwebapp.config.json` precache entry.
+- At 390 × 844 the landing board begins at y=722.625. Live mobile Axe found
+  zero serious or critical violations.
+
 ## Known gaps
 
-No product gaps are known. The final hosted 404 and offline-install checks
-must be rerun against the freshly published URL after deployment.
+No known product gaps.
