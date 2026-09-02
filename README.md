@@ -4,7 +4,7 @@ Grow mirrored orchard patterns across 40 teaching boards, a daily puzzle, and re
 
 Mirror Orchard is a free browser puzzle for players who want time to learn a visual rule. Choose a branch and plant it on either side of the board. Its reflection grows at the same time. Fill every glowing plot before three invalid placements use your dew.
 
-Every teaching board stays open. The daily puzzle can be replayed, and the same personal seed always makes the same board. Intended session length is under five minutes per round.
+Every teaching board stays open. The daily puzzle can be replayed, and the same personal seed always makes the same board. The tested sample round reaches its end screen in under five minutes. Rounds have no timer.
 
 Live: <https://mirror-orchard.sociobot.in>  
 One-click demo: <https://mirror-orchard.sociobot.in/demo>

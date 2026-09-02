@@ -49,6 +49,13 @@
     "sandbox": "fresh /demo sample; open Daily and compare its fingerprint after reload"
   },
   {
+    "id": "daily-replay",
+    "claim": "The daily puzzle can reach its end screen and replay from a clean board.",
+    "where": "daily end screen, README",
+    "test": "npm run test:e2e -- --grep @claim:daily-replay",
+    "sandbox": "fresh /demo sample; solve the UTC daily board through public controls, replay it, and assert zero moves, three dew, no filled plots, and an unused tray"
+  },
+  {
     "id": "local-only",
     "claim": "Progress stays on this device and the game loads no third-party scripts.",
     "where": "landing page, privacy page, README",
@@ -106,16 +113,16 @@
   },
   {
     "id": "input-paths",
-    "claim": "The game supports pointer, touch, and keyboard controls.",
+    "claim": "The game supports pointer, touch, Arrow keys, number keys 1–9, R, Enter, Space, Z, and Escape.",
     "where": "game help, README",
     "test": "npm run test:e2e -- --grep @claim:input-paths",
-    "sandbox": "fresh 390px touch-enabled /demo context; tap a branch and plot, then navigate and pause by keyboard"
+    "sandbox": "fresh 390px touch-enabled /demo context; plant by pointer and touch, exercise all four arrows and number keys 1–9, then rotate, plant with Enter and Space, undo, and pause"
   },
   {
     "id": "frame-rate",
     "claim": "The board rendering loop targets 60 fps on a mid-range phone.",
     "where": "handoff performance notes",
     "test": "npm run test:e2e -- --grep @claim:frame-rate",
-    "sandbox": "fresh 390 × 844 /demo sample in Chromium with 4× CPU throttling; measure 120 board highlight updates and require each warmed-up update to fit a 45 fps frame budget"
+    "sandbox": "fresh 390 × 844 /demo sample in Chromium with 4× CPU throttling; measure three independent 120-frame requestAnimationFrame samples while updating board highlights and require each rounded cadence to reach at least 60 fps"
   }
 ]
