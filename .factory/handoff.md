@@ -1,43 +1,47 @@
-# Mirror Orchard polish 2 handoff
+# Mirror Orchard verification 9 handoff
 
-## Status: complete
+## Status: PASS
 
-Perfection-loop round 2 is deployed at <https://mirror-orchard.sociobot.in>. Repair implementation commit: `b88258c3a66a8bf70fe29e9569701c5505333265`.
+Independent verification accepted candidate
+`02b2b5b302c40f8b63a0412296c82798ae23f55d` at
+<https://mirror-orchard.sociobot.in> on 2026-09-02 UTC. The live HTML, hashed
+JavaScript/CSS, service worker, and hero asset are byte-identical to a fresh
+production build of that candidate.
 
-## What changed
+## Verification completed
 
-- Changed every skip link, including the real 404, to **Skip to main content** and made keyboard activation focus `main#main` on every route.
-- Added all 40 finite teaching-board routes to `sitemap.xml` and added exact route/sitemap parity coverage.
-- Rechecked every F-1 finding and all earlier accepted repairs; none regressed.
-- Updated the catalog description to a 99-character, verb-first sentence.
-- Recorded the full finding map and evidence in `.factory/polish-2.md`.
+- Clean install passed: 61 packages, 0 vulnerabilities.
+- Every one of the 19 claim commands in `.factory/claims.json` passed through
+  the `/demo` production entry point.
+- `npm test` passed: 4 unit and 30 Chromium tests. `npm run lint`, typecheck,
+  and the exact `npm run build` command passed; `dist/` was produced.
+- Cold first-read, the visible one-click demo, win, loss, replay/restart,
+  local persistence, all advertised inputs/modes, keyboard focus, mobile,
+  offline reload, service-worker update behavior, request privacy, response
+  headers, cache policy, and 47 sitemap URLs were independently exercised.
+- Live axe reported zero serious/critical findings across all public routes.
+  Lighthouse mobile measured Performance 99, Accessibility 100, Best
+  Practices 100, and SEO 100 (LCP 1.6 s, CLS 0.059, TBT 0 ms).
+- Live board rendering at 390 × 844 under 4× CPU throttling measured 59.88 FPS
+  median across five 120-frame samples, above the 50 FPS claim.
 
-## How to run and verify
+## How to run
 
 ```sh
 npm ci
 npm test
+npm run lint
 npm run build
 npm run preview
 ```
 
-Open <http://localhost:4173>. Use <http://localhost:4173/?demo=1> for the clean, isolated sample.
+Use `http://localhost:4173/demo` (or `/?demo=1`) for the isolated sample.
+Run each command named in `.factory/claims.json` to reproduce the claims gate.
 
-For claims, run each `test` command in `.factory/claims.json`. There are 19 declarations and exactly 19 unique `@claim:<id>` tags.
+## Known gaps / defects
 
-## Exact evidence
+None found in this candidate. This static, no-account game has no server-side
+API or product-unlock endpoint, so rate-limit/429 and identity-provider checks
+do not apply.
 
-- Clean clone `/tmp/mirror-orchard-clean.6VF21t`: `npm ci` passed with 0 vulnerabilities; all 19 claim commands passed independently.
-- `npm test`: 4 unit and 30 Chromium tests passed.
-- `npm run build`: `dist/` produced; JS 33.84 KB raw / 11.84 KB gzip; CSS 23.30 KB raw / 5.90 KB gzip; mobile hero 77,382 bytes.
-- Live route audit: nine routes, including a real HTTP 404, had one h1, one main, the exact skip label, working skip focus, no overflow, no console errors, and zero serious/critical Axe violations.
-- Live sitemap audit: 47 entries, including `/play/archive/1` through `/play/archive/40`; every entry returned HTTP 200.
-- Live demo audit: board 3 opened with boards 1 and 2 complete; reset worked; exit discarded only demo storage; requests stayed same-origin; offline reload restored the sample.
-- Live History API audit: Back focused the landing h1 and populated the polite announcement.
-- Live Lighthouse mobile: 98 performance, 100 accessibility, 100 best practices, 100 SEO; LCP 1.6 s, CLS 0.062, TBT 100 ms.
-- Screenshots and machine-readable reports: [polish-2-assets](polish-2-assets/). The skip-link proof is [live-skip-link.png](polish-2-assets/live-skip-link.png).
-- Deployment `803c78af-bc53-4eb2-9f00-122752e7e143` succeeded on the existing `sf-mirror-orchard` Static Web App; <https://mirror-orchard.sociobot.in> returned HTTP 200.
-
-## Known gaps and next steps
-
-None. All findings in `.factory/review-1.md` and `.factory/review-2.md` are resolved and verified on the deployed site.
+Full evidence and exact observations are in `.factory/verification-9.md`.
