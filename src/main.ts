@@ -201,7 +201,7 @@ function seedPage(demo = false): string {
     <header class="page-intro"><p class="eyebrow">Reproducible boards</p><h1 tabindex="-1">Grow a puzzle from any seed</h1><p>The same letters always make the same board and branch tray.</p></header>
     <form class="seed-form" data-seed-form>
       <label for="seed-input">Seed word or phrase</label>
-      <div><input id="seed-input" name="seed" required maxlength="48" pattern="[A-Za-z0-9 -]{1,48}" aria-describedby="seed-help seed-error" autocomplete="off" value="mint-window" /><button class="primary-action" type="submit">Plant this seed</button></div>
+      <div><input id="seed-input" name="seed" required maxlength="48" pattern="[A-Za-z0-9 \\-]{1,48}" aria-describedby="seed-help seed-error" autocomplete="off" value="mint-window" /><button class="primary-action" type="submit">Plant this seed</button></div>
       <p id="seed-help">Use 1–48 letters, numbers, spaces, or dashes.</p>
       <p id="seed-error" class="seed-error" role="alert"></p>
     </form>

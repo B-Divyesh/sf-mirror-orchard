@@ -260,25 +260,33 @@ test('@claim:frame-rate board rendering keeps a 50fps median at 390px under 4x C
     const plot = document.querySelector<HTMLElement>('[data-cell="0,0"]');
     if (!board || !plot) throw new Error('The demo board is not available for measurement.');
 
-    // Warm layout and animation scheduling before taking five independent
-    // samples. Every sampled animation frame performs a real board highlight
-    // style/layout update, rather than timing a synchronous loop.
-    await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-    const measurements: Array<{ fps: number; frameCount: number }> = [];
-    for (let sample = 0; sample < 5; sample += 1) {
+    const measureFrames = async (frameCount: number): Promise<number[]> => {
       const timestamps: number[] = [];
       await new Promise<void>((resolve) => {
         const onFrame = (timestamp: number): void => {
           plot.classList.toggle('preview');
           void board.getBoundingClientRect();
           timestamps.push(timestamp);
-          if (timestamps.length < 120) requestAnimationFrame(onFrame);
+          if (timestamps.length < frameCount) requestAnimationFrame(onFrame);
           else resolve();
         };
         requestAnimationFrame(onFrame);
       });
-      const elapsed = timestamps.at(-1)! - timestamps[0];
-      measurements.push({ fps: ((timestamps.length - 1) * 1_000) / elapsed, frameCount: timestamps.length });
+      return timestamps;
+    };
+
+    // Font loading, service-worker startup, CSS compilation, and the first
+    // board paints are startup work, not steady-state play. Warm the exact
+    // highlight/render path once before taking a single set of measurements.
+    await document.fonts.ready;
+    await measureFrames(120);
+
+    const measurements: Array<{ fps: number; frameCount: number; medianIntervalMs: number }> = [];
+    for (let sample = 0; sample < 5; sample += 1) {
+      const timestamps = await measureFrames(120);
+      const intervals = timestamps.slice(1).map((timestamp, index) => timestamp - timestamps[index]).sort((left, right) => left - right);
+      const medianIntervalMs = intervals[Math.floor(intervals.length / 2)];
+      measurements.push({ fps: 1_000 / medianIntervalMs, frameCount: timestamps.length, medianIntervalMs });
     }
     return measurements;
   });
@@ -288,13 +296,13 @@ test('@claim:frame-rate board rendering keeps a 50fps median at 390px under 4x C
     expect(sample.frameCount).toBe(120);
   }
 
-  // Browser scheduling and shared-runner load can make one window noisy. The
-  // median still catches a sustained rendering regression without turning one
-  // missed animation frame into a false release failure.
+  // The claim is median cadence, so each sample uses its median rAF interval
+  // instead of converting total elapsed time (an arithmetic mean) to FPS.
+  // There is one deterministic warm-up and one measurement set: no retry path.
   const sortedFps = samples.map(({ fps }) => fps).sort((left, right) => left - right);
   const medianFps = sortedFps[Math.floor(sortedFps.length / 2)];
   console.info(
-    `Frame-rate samples: ${samples.map(({ fps }) => fps.toFixed(2)).join(', ')} fps; median ${medianFps.toFixed(2)} fps`
+    `Warmed frame-rate samples: ${samples.map(({ fps }) => fps.toFixed(2)).join(', ')} fps; median ${medianFps.toFixed(2)} fps`
   );
   expect(medianFps).toBeGreaterThanOrEqual(MEDIAN_BUDGET_FPS);
   await context.close();
@@ -455,13 +463,27 @@ test('persistent mobile controls meet the 44px touch-target baseline', async ({ 
   await context.close();
 });
 
-test('seed input rejects punctuation and valid seed URLs stay reproducible', async ({ page }) => {
+test('seed input rejects punctuation with Chromium-v validation, no console errors, and reproducible valid URLs', async ({ page }) => {
+  const consoleErrors: string[] = [];
+  const pageErrors: string[] = [];
+  page.on('console', (message) => {
+    if (message.type() === 'error') consoleErrors.push(message.text());
+  });
+  page.on('pageerror', (error) => pageErrors.push(error.message));
   await page.goto('/seeds');
-  await page.getByLabel('Seed word or phrase').fill('🚫/bad_seed!');
+  const seedInput = page.getByLabel('Seed word or phrase');
+  await expect(seedInput).toHaveAttribute('pattern', '[A-Za-z0-9 \\-]{1,48}');
+  await seedInput.fill('bad!');
+  expect(await seedInput.evaluate((input: HTMLInputElement) => ({
+    valid: input.checkValidity(),
+    patternMismatch: input.validity.patternMismatch
+  }))).toEqual({ valid: false, patternMismatch: true });
   await page.getByRole('button', { name: 'Plant this seed' }).click();
   await expect(page.locator('#seed-error')).toHaveText('Use 1–48 letters, numbers, spaces, or dashes.');
-  await expect(page.getByLabel('Seed word or phrase')).toHaveAttribute('aria-invalid', 'true');
-  await page.getByLabel('Seed word or phrase').fill('mist-fern');
+  await expect(seedInput).toHaveAttribute('aria-invalid', 'true');
+  expect(consoleErrors).toEqual([]);
+  expect(pageErrors).toEqual([]);
+  await seedInput.fill('mist-fern');
   await page.getByRole('button', { name: 'Plant this seed' }).click();
   await expect(page).toHaveURL(/\/seeds\?seed=mist-fern$/);
   await expect(page.locator('.game-board')).toBeVisible();
