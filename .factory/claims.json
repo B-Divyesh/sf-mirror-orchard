@@ -70,6 +70,13 @@
     "sandbox": "fresh /demo sample; inspect keys, leave with Start for real, and verify the demo key is removed"
   },
   {
+    "id": "demo-sample-state",
+    "claim": "The one-click demo opens teaching board 3 with boards 1 and 2 complete.",
+    "where": "landing page action note, demo guide",
+    "test": "npm run test:e2e -- --grep @claim:demo-sample-state",
+    "sandbox": "fresh browser context entered through /?demo=1; verify board 3, completed archive entries 1 and 2, banner, and reset"
+  },
+  {
     "id": "free-no-account",
     "claim": "The game is free and needs no account.",
     "where": "landing page, README",

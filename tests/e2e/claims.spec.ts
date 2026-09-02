@@ -34,7 +34,7 @@ async function expectDialogFocusTrap(page: Page, firstControl: string, lastContr
 
 test('@claim:archive-open all 40 teaching boards stay open', async ({ page }) => {
   await enterDemo(page);
-  await page.getByRole('link', { name: 'Archive' }).click();
+  await page.getByRole('link', { name: 'Archive', exact: true }).click();
   await expect(page).toHaveURL(/\/archive\?demo=1$/);
   await expect(page.locator('.archive-list > li')).toHaveCount(40);
   await page.getByRole('link', { name: /40 Finish the teaching orchard/ }).click();
@@ -142,6 +142,22 @@ test('@claim:demo-isolated demo data uses its own disposable storage', async ({ 
   expect(await page.evaluate(() => localStorage.getItem('demo:mirror-orchard:v1'))).toBeNull();
 });
 
+test('@claim:demo-sample-state the direct demo opens board 3 with two boards complete and resets', async ({ page }) => {
+  await page.goto('/?demo=1');
+  await expect(page).toHaveURL(/\/demo$/);
+  await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Try teaching board 3');
+  await page.getByRole('link', { name: 'Archive' }).click();
+  await expect(page.getByRole('link', { name: /01 Single reflections Complete/ })).toBeVisible();
+  await expect(page.getByRole('link', { name: /02 Plant the center Complete/ })).toBeVisible();
+  await page.getByRole('link', { name: /03 Build both halves/ }).click();
+  await expect(page.locator('.game-readout span').nth(1).locator('b')).toHaveText('1');
+  await page.getByRole('button', { name: 'Reset demo' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Try teaching board 3');
+  await expect(page.locator('.game-readout span').nth(1).locator('b')).toHaveText('1');
+  await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
+});
+
 test('@claim:free-no-account game offers play without login or payment', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByText('Free. No account.')).toBeVisible();
@@ -243,6 +259,17 @@ test('the landing board preview is visible in the 390 by 844 first viewport', as
   expect(board!.y).toBeLessThan(844);
   expect(board!.y + Math.min(board!.height, 44)).toBeGreaterThan(0);
   await context.close();
+});
+
+test('browser Back focuses and announces the landing route', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: 'Archive', exact: true }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+  await expect(page.locator('[aria-live="polite"]')).toHaveText('Learn with 40 teaching boards page');
+  await page.goBack();
+  await expect(page).toHaveURL('/');
+  await expect(page.getByRole('heading', { level: 1, name: 'Learn a symmetry puzzle at your pace' })).toBeFocused();
+  await expect(page.locator('[aria-live="polite"]')).toHaveText('Learn a symmetry puzzle at your pace page');
 });
 
 test('@claim:input-paths pointer, touch, and keyboard controls work', async ({ browser }) => {

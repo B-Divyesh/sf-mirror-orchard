@@ -128,7 +128,7 @@ function landingPage(): string {
       </picture>
       <div class="hero-copy glass-plate">
         <p class="eyebrow">40 teaching boards · one daily puzzle</p>
-        <h1 id="home-title">Learn a symmetry puzzle at your pace</h1>
+        <h1 id="home-title" tabindex="-1">Learn a symmetry puzzle at your pace</h1>
         <p class="hero-lead">For visual puzzle players who want practice boards before the daily challenge.</p>
         <div class="hero-action">
           ${routeLink('/demo', 'Try it with sample data', 'primary-action')}
@@ -148,14 +148,14 @@ function landingPage(): string {
     </section>
     <section class="landing-section live-preview" aria-labelledby="play-options">
       <div>
-        <p class="eyebrow">Choose your pace</p>
-        <h2 id="play-options">Every board stays open</h2>
-        <p>Start with a short lesson, replay today’s board, or enter a seed. No puzzle expires.</p>
+        <p class="eyebrow">Choose a puzzle</p>
+        <h2 id="play-options">Every teaching board stays open</h2>
+        <p>Start with a teaching board, play today’s puzzle, or enter a seed.</p>
       </div>
       <div class="route-strips">
         ${routeLink('/archive', '<span><b>Teaching archive</b><small>40 ordered boards</small></span><span aria-hidden="true">01—40 →</span>')}
         ${routeLink('/daily', '<span><b>Daily puzzle</b><small>The same seed for everyone today</small></span><span aria-hidden="true">Today →</span>')}
-        ${routeLink('/seeds', '<span><b>Personal seeds</b><small>Replay any word or phrase</small></span><span aria-hidden="true">Type one →</span>')}
+        ${routeLink('/seeds', '<span><b>Personal seeds</b><small>Replay a seed using letters, numbers, spaces, or dashes</small></span><span aria-hidden="true">Type one →</span>')}
       </div>
     </section>
     <section class="landing-section how" aria-labelledby="how-title">
@@ -167,7 +167,7 @@ function landingPage(): string {
       </ol>
     </section>
     <section class="landing-section limits" aria-labelledby="privacy-title">
-      <div><p class="eyebrow">Clear limits</p><h2 id="privacy-title">Your play stays on this device</h2></div>
+      <div><p class="eyebrow">Privacy and storage</p><h2 id="privacy-title">Your play stays on this device</h2></div>
       <div><p>The game stores completed boards, open runs, settings, and recent seeds in your browser.</p><p>There are no accounts, ads, leaderboards, payments, or third-party scripts.</p></div>
     </section>
   </main>`;
@@ -302,7 +302,7 @@ function gamePage(board: Board, demo: boolean): string {
         <div class="mirror-labels" aria-hidden="true"><span>Plant</span><span>Mirror channel</span><span>Reflection</span></div>
         ${boardMarkup(board, state)}
       </div>
-      <aside class="game-tools" aria-label="Branch tray and controls">
+      <div class="game-tools" aria-label="Branch tray and controls">
         <div class="tray-heading"><div><p class="eyebrow">Branch tray</p><h2>Choose one branch</h2></div><span>${available} left</span></div>
         <div class="piece-tray">${tray}</div>
         <div class="tool-actions">
@@ -312,7 +312,7 @@ function gamePage(board: Board, demo: boolean): string {
         </div>
         <details class="game-help"><summary>Keyboard and rules</summary><p>Use arrows to move between plots. Press 1–9 to choose a branch. Press R to rotate, then Enter to plant.</p><p>A bad placement spends one dew drop. Undo removes your latest branch.</p></details>
         <div class="setting-row"><button type="button" data-action="sound" aria-pressed="${data.settings.sound}">Sound ${data.settings.sound ? 'on' : 'off'}</button><button type="button" data-action="calm-motion" aria-pressed="${data.settings.calmMotion}">Calm motion ${data.settings.calmMotion ? 'on' : 'off'}</button></div>
-      </aside>
+      </div>
     </section>
     ${endPanel(activeGame)}
   </main>`;
@@ -393,7 +393,13 @@ function render(focusHeading = true): void {
   requestAnimationFrame(() => {
     const dialogHeading = document.querySelector<HTMLElement>('.game-overlay h2');
     if (dialogHeading) dialogHeading.focus();
-    else if (focusHeading && path !== '/') document.querySelector<HTMLElement>('h1')?.focus();
+    else if (focusHeading) {
+      const heading = document.querySelector<HTMLElement>('h1');
+      if (heading) {
+        heading.focus();
+        announce(`${heading.textContent?.trim() ?? 'New'} page`);
+      }
+    }
   });
 }
 
