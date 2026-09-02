@@ -411,7 +411,11 @@ test('the static 404 uses the shared route skeleton and complete metadata', asyn
   await page.goto('/404.html');
   await expect(page.locator('h1')).toHaveCount(1);
   await expect(page.locator('main#main')).toHaveCount(1);
-  await expect(page.locator('a.skip-link[href="#main"]')).toHaveText('Skip to game');
+  await expect(page.locator('a.skip-link[href="#main"]')).toHaveText('Skip to main content');
+  await page.keyboard.press('Tab');
+  await expect(page.locator('a.skip-link')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('main#main')).toBeFocused();
   await expect(page.locator('header.site-header')).toHaveCount(1);
   await expect(page.locator('header.site-header nav[aria-label="Primary navigation"] a')).toHaveCount(4);
   await expect(page.locator('footer.site-footer')).toHaveCount(1);
@@ -428,6 +432,19 @@ test('the static 404 uses the shared route skeleton and complete metadata', asyn
   const results = await new AxeBuilder({ page: page as never }).analyze();
   expect(results.violations.filter((violation) => ['critical', 'serious'].includes(violation.impact ?? ''))).toEqual([]);
   await context.close();
+});
+
+test('every application route skips to its main content', async ({ page }) => {
+  const routes = ['/', '/archive', '/daily', '/seeds', '/privacy', '/terms', '/demo', '/play/archive/1'];
+  for (const route of routes) {
+    await page.goto(route);
+    const skipLink = page.locator('a.skip-link[href="#main"]');
+    await expect(skipLink, route).toHaveText('Skip to main content');
+    await page.keyboard.press('Tab');
+    await expect(skipLink, route).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('main#main'), route).toBeFocused();
+  }
 });
 
 test('pause and end dialogs contain focus and inert the covered game', async ({ page }) => {
@@ -505,6 +522,12 @@ test('static response policy serves only archive boards 1–40 and reserves real
   const archiveRoutes = appRoutes.filter((route) => route.startsWith('/play/archive/'));
   const expectedArchiveRoutes = Array.from({ length: 40 }, (_, index) => `/play/archive/${index + 1}`);
   expect(archiveRoutes).toEqual(expectedArchiveRoutes);
+  const sitemapResponse = await request.get('/sitemap.xml');
+  expect(sitemapResponse.ok()).toBe(true);
+  const sitemap = await sitemapResponse.text();
+  const sitemapRoutes = [...sitemap.matchAll(/<loc>https:\/\/mirror-orchard\.sociobot\.in([^<]*)<\/loc>/g)]
+    .map((match) => match[1] || '/');
+  expect(sitemapRoutes).toEqual(appRoutes);
   for (const invalidPath of ['/play/archive/0', '/play/archive/41', '/play/archive/-1', '/play/archive/foo']) {
     expect(appRoutes).not.toContain(invalidPath);
   }

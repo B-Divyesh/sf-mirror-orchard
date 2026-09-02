@@ -73,7 +73,7 @@ function shell(main: string, demo = false): string {
       <span class="demo-actions"><button type="button" data-action="reset-demo">Reset demo</button>${routeLink('/play/archive/1', 'Start for real', 'text-link')}</span>
     </aside>` : '';
   return `
-    <a class="skip-link" href="#main">Skip to game</a>
+    <a class="skip-link" href="#main">Skip to main content</a>
     <div class="site-shell ${demo ? 'is-demo' : ''}">
       ${demoBanner}
       ${network}
@@ -120,7 +120,7 @@ function previewBoard(): string {
 
 function landingPage(): string {
   setMetadata('Mirror Orchard — Learn a symmetry puzzle', 'Learn mirrored planting through 40 teaching boards, a daily challenge, and reproducible personal seeds.', '/');
-  const main = `<main id="main" class="landing">
+  const main = `<main id="main" class="landing" tabindex="-1">
     <section class="hero" aria-labelledby="home-title">
       <picture class="hero-scene">
         <source media="(max-width: 640px)" srcset="/art/orchard-landscape-mobile.webp" />
@@ -184,7 +184,7 @@ function archivePage(demo = false): string {
     const href = demo ? `/demo?board=${level}` : `/play/archive/${level}`;
     return `<li>${routeLink(href, `<span class="archive-number">${String(level).padStart(2, '0')}</span><span><b>${escapeHtml(board.title)}</b><small>${complete ? `Complete · best ${data.bestMoves[board.id] ?? board.inventory.length} moves` : board.instruction}</small></span><span class="archive-state">${complete ? '✓ Complete' : 'Play →'}</span>`)}</li>`;
   }).join('');
-  return shell(`<main id="main" class="page-wrap archive-page">
+  return shell(`<main id="main" class="page-wrap archive-page" tabindex="-1">
     <header class="page-intro"><p class="eyebrow">Always open</p><h1 tabindex="-1">Learn with 40 teaching boards</h1><p>Open any board. The early boards teach one rule at a time.</p></header>
     <div class="archive-summary"><span><b>${data.completed.length}</b> of 40 complete</span><span>Short, turn-based boards</span></div>
     <ol class="archive-list">${items}</ol>
@@ -197,7 +197,7 @@ function seedPage(demo = false): string {
   const recent = data.recentSeeds.length
     ? `<ul class="seed-list">${data.recentSeeds.map((seed) => `<li>${routeLink(seedPath(seed, demo), `<span>${escapeHtml(seed)}</span><span>Replay →</span>`)}</li>`).join('')}</ul>`
     : '<div class="empty-state"><p>Your replayed seeds will appear here.</p><p>Enter a word above to make the first one.</p></div>';
-  return shell(`<main id="main" class="page-wrap seed-page">
+  return shell(`<main id="main" class="page-wrap seed-page" tabindex="-1">
     <header class="page-intro"><p class="eyebrow">Reproducible boards</p><h1 tabindex="-1">Grow a puzzle from any seed</h1><p>The same letters always make the same board and branch tray.</p></header>
     <form class="seed-form" data-seed-form>
       <label for="seed-input">Seed word or phrase</label>
@@ -291,7 +291,7 @@ function gamePage(board: Board, demo: boolean): string {
   const tray = state.pieces.map((piece, index) => `<button type="button" class="piece-card ${piece.id === selectedPiece.id ? 'is-selected' : ''} turn-${piece.rotation}" data-piece-id="${piece.id}" data-piece-kind="${piece.kind}" aria-pressed="${piece.id === selectedPiece.id}" ${piece.used || state.phase !== 'playing' ? 'disabled' : ''}>
     <span class="piece-number">${index + 1}</span>${pieceGlyph(piece.kind)}<span>${piece.kind === 'bud' ? 'Bud' : piece.kind === 'twig' ? 'Twig' : 'Corner'}</span>${piece.used ? '<small>Planted</small>' : ''}
   </button>`).join('');
-  const main = `<main id="main" class="game-page">
+  const main = `<main id="main" class="game-page" tabindex="-1">
     <header class="game-heading">
       <div><p class="eyebrow">${daily ? 'Daily seed' : seed ? 'Personal seed' : `Lesson ${board.level} of 40`}</p><h1 tabindex="-1">${escapeHtml(boardName)}</h1><p>${escapeHtml(board.instruction)}</p></div>
       <div class="game-readout"><span><b>${state.dew}</b> dew left</span><span><b>${state.moves}</b> moves</span><span><b>${available}</b> branches</span></div>
@@ -322,7 +322,7 @@ function gamePage(board: Board, demo: boolean): string {
 function legalPage(kind: 'privacy' | 'terms', demo = false): string {
   if (kind === 'privacy') {
     setMetadata('Privacy — Mirror Orchard', 'How Mirror Orchard stores game progress in your browser.', '/privacy');
-    return shell(`<main id="main" class="page-wrap legal-page"><header class="page-intro"><p class="eyebrow">Last updated 1 September 2026</p><h1 tabindex="-1">Privacy</h1><p>Mirror Orchard keeps your play private by default.</p></header>
+    return shell(`<main id="main" class="page-wrap legal-page" tabindex="-1"><header class="page-intro"><p class="eyebrow">Last updated 1 September 2026</p><h1 tabindex="-1">Privacy</h1><p>Mirror Orchard keeps your play private by default.</p></header>
       <section><h2>What the game stores</h2><p>Your browser stores completed boards, open runs, settings, and recent seeds. This data stays on your device.</p></section>
       <section><h2>Network requests</h2><p>The game loads its own code, fonts, and images from this site. It uses no accounts, advertising, analytics, or third-party scripts.</p></section>
       <section><h2>Demo data</h2><p>The demo uses a separate browser storage key. Reset demo or start for real to discard it.</p></section>
@@ -330,7 +330,7 @@ function legalPage(kind: 'privacy' | 'terms', demo = false): string {
     </main>`, demo);
   }
   setMetadata('Terms — Mirror Orchard', 'Terms for using the free Mirror Orchard browser game.', '/terms');
-  return shell(`<main id="main" class="page-wrap legal-page"><header class="page-intro"><p class="eyebrow">Last updated 1 September 2026</p><h1 tabindex="-1">Terms</h1><p>You may play Mirror Orchard for free.</p></header>
+  return shell(`<main id="main" class="page-wrap legal-page" tabindex="-1"><header class="page-intro"><p class="eyebrow">Last updated 1 September 2026</p><h1 tabindex="-1">Terms</h1><p>You may play Mirror Orchard for free.</p></header>
     <section><h2>Use</h2><p>Use the game for personal, educational, or recreational play. Do not disrupt the site or misuse its files.</p></section>
     <section><h2>Availability</h2><p>The game is provided as available. Features and teaching boards may change in later versions.</p></section>
     <section><h2>Your progress</h2><p>Progress is stored in your browser. Clearing browser data removes it, so keep any seed words you want to replay.</p></section>
@@ -340,7 +340,7 @@ function legalPage(kind: 'privacy' | 'terms', demo = false): string {
 
 function notFoundPage(): string {
   setMetadata('Page not found — Mirror Orchard', 'Return to the Mirror Orchard teaching archive.', location.pathname);
-  return shell(`<main id="main" class="page-wrap not-found"><div class="lost-mark">${leafMark()}<span>404</span></div><p class="eyebrow">This path has no planting bed</p><h1 tabindex="-1">Page not found</h1><p>The link may be old, or the address may have a typing mistake.</p>${routeLink('/archive', 'Open the teaching archive', 'primary-action')}</main>`);
+  return shell(`<main id="main" class="page-wrap not-found" tabindex="-1"><div class="lost-mark">${leafMark()}<span>404</span></div><p class="eyebrow">This path has no planting bed</p><h1 tabindex="-1">Page not found</h1><p>The link may be old, or the address may have a typing mistake.</p>${routeLink('/archive', 'Open the teaching archive', 'primary-action')}</main>`);
 }
 
 function currentBoardFromRoute(): { board: Board; demo: boolean } | null {
@@ -542,6 +542,13 @@ function performAction(action: string): void {
 }
 
 function bindPage(): void {
+  document.querySelector<HTMLAnchorElement>('a.skip-link')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    const main = document.querySelector<HTMLElement>('main#main');
+    if (!main) return;
+    main.focus();
+    main.scrollIntoView({ block: 'start' });
+  });
   document.querySelectorAll<HTMLAnchorElement>('a[data-route]').forEach((link) => {
     link.addEventListener('click', (event) => {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
