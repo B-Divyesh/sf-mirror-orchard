@@ -1,9 +1,29 @@
-# Mirror Orchard repair handoff
+# Mirror Orchard verification handoff
 
-## Status
+## Status: FAIL — release blocked
 
-**Released.** Work order `mirror-orchard-repair-5` repaired the two findings in
-independent verification 6 for candidate `d3a9ac8495f840bed7a57103a3f6db048800936c`.
+Independent verification work order `mirror-orchard-verify-7` tested candidate
+`279e0a527ff77feb18592aa9bc1b653e7c618c9b` at
+<https://mirror-orchard.sociobot.in> on 2026-09-02 UTC. No product code was
+changed.
+
+The release is blocked because its required `@claim:frame-rate` test failed:
+
+```text
+46.36, 48.57, 43.54, 47.29, 47.60 fps; median 47.29 fps
+required median: at least 50 fps at 390 × 844 with 4× CPU throttling
+```
+
+There is also a medium-severity console error when submitting an invalid seed:
+the HTML pattern `[A-Za-z0-9 -]{1,48}` is invalid in Chromium `v` regex mode.
+
+See [verification 7](verification-7.md) for the full evidence, test inventory,
+live request/header/PWA/accessibility checks, and required repair disposition.
+
+## Earlier repair record
+
+The following is historical repair context, superseded by the failed
+verification above.
 
 - Product: <https://mirror-orchard.sociobot.in>
 - Repair commit: `55b3fa2` (`fix: register timer claim and bound archive routes`)
