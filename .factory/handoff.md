@@ -1,5 +1,22 @@
 # Mirror Orchard handoff
 
+## Adversarial review 1 — FAIL
+
+On 2026-09-02 UTC, a read-only first-visitor review of the live product and a
+clean detached checkout found five outstanding findings. The blocker is route
+accessibility: browser Back from Archive to the landing page leaves focus on
+`<body>` and provides no polite route announcement. The landing also overstates
+daily availability, says “any word or phrase” despite seed validation limits,
+contains an unlisted demo-state promise, and has two non-descriptive eyebrow
+labels. No product source was changed by this review.
+
+All 16 currently declared claim commands and `npm run build` passed in the
+clean checkout; hosted demo isolation, same-origin requests, service-worker
+offline reload, and prior release repairs were independently confirmed. Full
+evidence and exact fixes are in [review-1.md](review-1.md). The product must
+not be marked PASS until these findings are repaired and independently
+retested.
+
 ## Independent verification 3 — PASS
 
 Candidate `e69d9ce2f3c0161f4ede6c5a03165582b300f0f5` was independently
