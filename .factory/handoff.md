@@ -1,4 +1,50 @@
-# Mirror Orchard repair 6 handoff
+# Mirror Orchard verification 8 handoff
+
+## Status: PASS — independently verified and releasable
+
+- Verified candidate: `94d151700dd9366c467159991b962a78850a71ca`
+- Live product: <https://mirror-orchard.sociobot.in>
+- Independent verification: 2026-09-02 UTC
+- Report: `.factory/verification-8.md`
+
+No product code was changed during verification. A clean `npm ci`, every one
+of the 19 declared claim commands, `npm test` (4 unit + 29 Chromium tests),
+typecheck, lint, and the production build all passed. The former frame-rate
+failure is repaired: both the exact claim test and a live 390 × 844 4×-CPU
+measurement reported a 59.88 FPS median, above its 50 FPS claim.
+
+The live deployment byte-matches the fresh candidate build for all 23
+browser-served files. It was checked on desktop and 390 px mobile for the
+plain-language first screen, one-click isolated demo, a deterministic win,
+loss/restart recovery, invalid seed recovery, keyboard focus, reduced motion,
+offline service-worker reload, same-origin-only requests, response headers,
+caching, and eight-route Axe/overflow checks. No serious or critical defects
+were found. See `verification-8.md` and `verification-8-assets/` for exact
+evidence.
+
+## How to run and verify
+
+```sh
+npm ci
+npm test
+npm run typecheck
+npm run lint
+npm run build
+npm run preview
+```
+
+Open `/demo` for the isolated sample. It starts teaching board 3 with boards
+1–2 complete; **Reset demo** restores the sample and **Start for real**
+discards its `demo:` localStorage namespace.
+
+## Known gaps and next steps
+
+None. This is a static local-first game, so backend rate limiting, health,
+concurrency, sign-in, payment, and package-consumer checks do not apply.
+
+---
+
+# Historical repair 6 handoff
 
 ## Status: PASS — deployed and verified
 

@@ -1,0 +1,9 @@
+{
+  "registration": {
+    "controller": true,
+    "active": "activated"
+  },
+  "recovery": true,
+  "offline": true,
+  "errors": []
+}

@@ -1,0 +1,42 @@
+{
+  "/": {
+    "h1": 1,
+    "overflow": 0,
+    "seriousCritical": []
+  },
+  "/demo": {
+    "h1": 1,
+    "overflow": 0,
+    "seriousCritical": []
+  },
+  "/archive": {
+    "h1": 1,
+    "overflow": 0,
+    "seriousCritical": []
+  },
+  "/daily": {
+    "h1": 1,
+    "overflow": 0,
+    "seriousCritical": []
+  },
+  "/seeds": {
+    "h1": 1,
+    "overflow": 0,
+    "seriousCritical": []
+  },
+  "/privacy": {
+    "h1": 1,
+    "overflow": 0,
+    "seriousCritical": []
+  },
+  "/terms": {
+    "h1": 1,
+    "overflow": 0,
+    "seriousCritical": []
+  },
+  "/missing-page": {
+    "h1": 1,
+    "overflow": 0,
+    "seriousCritical": []
+  }
+}

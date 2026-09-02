@@ -1,0 +1,23 @@
+{
+  "errors": [],
+  "loss": {
+    "heading": "This orchard withered",
+    "detail": "Restart with a full tray and three dew drops."
+  },
+  "seed": {
+    "validity": {
+      "patternMismatch": true,
+      "aria": "true"
+    },
+    "error": "Use 1–48 letters, numbers, spaces, or dashes."
+  },
+  "mobile": {
+    "overflow": 0,
+    "focus": {
+      "tag": "A",
+      "text": "Skip to game",
+      "outline": "solid"
+    },
+    "reduced": true
+  }
+}

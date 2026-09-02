@@ -1,0 +1,194 @@
+[
+  {
+    "path": "/404.css",
+    "status": 200,
+    "local": "6dcc7dfc1d8462c83a011700c0ed6a12140ddbe056558a3ec807d948e503981e",
+    "remote": "6dcc7dfc1d8462c83a011700c0ed6a12140ddbe056558a3ec807d948e503981e",
+    "equal": true,
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "path": "/404.html",
+    "status": 200,
+    "local": "0ab17c3ee08cb4ff7f78ecece7d7c07c29eef8a76b7b52fd7ca5c2b923a37027",
+    "remote": "0ab17c3ee08cb4ff7f78ecece7d7c07c29eef8a76b7b52fd7ca5c2b923a37027",
+    "equal": true,
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "path": "/apple-touch-icon.png",
+    "status": 200,
+    "local": "9298c069752f2acb4f13290d145154d8229196c65bdeb58c9be67df7d8947cd4",
+    "remote": "9298c069752f2acb4f13290d145154d8229196c65bdeb58c9be67df7d8947cd4",
+    "equal": true,
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "path": "/art/orchard-landscape-mobile.webp",
+    "status": 200,
+    "local": "91d317753804f9bd2c27887d6116c2f03c70bcba5eabea403e744e94d9faaa73",
+    "remote": "91d317753804f9bd2c27887d6116c2f03c70bcba5eabea403e744e94d9faaa73",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/art/orchard-landscape.webp",
+    "status": 200,
+    "local": "93a0d9773efad4c823e9bff40977b7234cbd63992028cdad0e440aead047ac83",
+    "remote": "93a0d9773efad4c823e9bff40977b7234cbd63992028cdad0e440aead047ac83",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/assets/fraunces-latin-ext-wght-normal-Ca2vKHc0.woff2",
+    "status": 200,
+    "local": "a21ecfbf41fbc393e24ef9b7e38532a27e8da5e0a074aa7d66802d1b5ccec2f0",
+    "remote": "a21ecfbf41fbc393e24ef9b7e38532a27e8da5e0a074aa7d66802d1b5ccec2f0",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/assets/fraunces-latin-wght-normal-ukD16Tqj.woff2",
+    "status": 200,
+    "local": "7f9d191d999336d3b9790afa72e1358e50a13b06d4f289341e92a311967a80f9",
+    "remote": "7f9d191d999336d3b9790afa72e1358e50a13b06d4f289341e92a311967a80f9",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/assets/fraunces-vietnamese-wght-normal-CnvboYUG.woff2",
+    "status": 200,
+    "local": "ce7b18aac7371cde4a740e54e252e9f02de67ff2ed444b18d1d04e66f50edeb0",
+    "remote": "ce7b18aac7371cde4a740e54e252e9f02de67ff2ed444b18d1d04e66f50edeb0",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/assets/index-CsCT6HJ_.css",
+    "status": 200,
+    "local": "6e773960ade9c31e157ab17c6bef31c349a0faeaf3ca7f6bbe61d8dc4d2ecb7e",
+    "remote": "6e773960ade9c31e157ab17c6bef31c349a0faeaf3ca7f6bbe61d8dc4d2ecb7e",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/assets/index-ddkzeJKS.js",
+    "status": 200,
+    "local": "3bfef1808af09182cbccef488e73ce2a9fce85e2ed85e1bc33eae0c7406cbc45",
+    "remote": "3bfef1808af09182cbccef488e73ce2a9fce85e2ed85e1bc33eae0c7406cbc45",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/assets/manrope-cyrillic-ext-wght-normal-C8S-KRRz.woff2",
+    "status": 200,
+    "local": "de37de877dc17e4577341fa68bb5cb526b53d54cb29721e674208546a3c7849d",
+    "remote": "de37de877dc17e4577341fa68bb5cb526b53d54cb29721e674208546a3c7849d",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/assets/manrope-cyrillic-wght-normal-Dvxsihut.woff2",
+    "status": 200,
+    "local": "c268b459a9329e59fecf39a17618efd44c71735532048d60b12aab76a8c14914",
+    "remote": "c268b459a9329e59fecf39a17618efd44c71735532048d60b12aab76a8c14914",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/assets/manrope-greek-wght-normal-DL7QRZyv.woff2",
+    "status": 200,
+    "local": "2fb2e8cbfd52ae46179a8b6024eb162f1f9c6de3d22d6e3a30d8f395de7220be",
+    "remote": "2fb2e8cbfd52ae46179a8b6024eb162f1f9c6de3d22d6e3a30d8f395de7220be",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/assets/manrope-latin-ext-wght-normal-Ch3YOpNY.woff2",
+    "status": 200,
+    "local": "3911b66d9f2e005a4b989223405d0e5032619c668597ba467cc76a23c8fffcfb",
+    "remote": "3911b66d9f2e005a4b989223405d0e5032619c668597ba467cc76a23c8fffcfb",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/assets/manrope-latin-wght-normal-DHIcAJRg.woff2",
+    "status": 200,
+    "local": "a30ddcd349703aff7464c34bef3fffdff405ee50c113440d7c8693c02d210972",
+    "remote": "a30ddcd349703aff7464c34bef3fffdff405ee50c113440d7c8693c02d210972",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/assets/manrope-vietnamese-wght-normal-usUDDRr7.woff2",
+    "status": 200,
+    "local": "6bbb044ab420e07edb0a3042d2eb314b85e83a0182e945a15ab3b9092668dfd5",
+    "remote": "6bbb044ab420e07edb0a3042d2eb314b85e83a0182e945a15ab3b9092668dfd5",
+    "equal": true,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "path": "/favicon.svg",
+    "status": 200,
+    "local": "1ad2d342ac35860fe85b454b605bad3849563818dfb69a685a19201d421de376",
+    "remote": "1ad2d342ac35860fe85b454b605bad3849563818dfb69a685a19201d421de376",
+    "equal": true,
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "path": "/index.html",
+    "status": 200,
+    "local": "e12b7ddd3e3a22196a778399f13c5cdb82d2a468d61e8fecc791ab117c1d2dea",
+    "remote": "e12b7ddd3e3a22196a778399f13c5cdb82d2a468d61e8fecc791ab117c1d2dea",
+    "equal": true,
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "path": "/manifest.webmanifest",
+    "status": 200,
+    "local": "ee412f8487134f2df963d245366d57c8eb0562019b6a52ce4a41241757a3e935",
+    "remote": "ee412f8487134f2df963d245366d57c8eb0562019b6a52ce4a41241757a3e935",
+    "equal": true,
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "path": "/robots.txt",
+    "status": 200,
+    "local": "343fee6e0f8f878b0c0a5e8a124c0b73cf63b4846db8919e17f4889aa2ea0471",
+    "remote": "343fee6e0f8f878b0c0a5e8a124c0b73cf63b4846db8919e17f4889aa2ea0471",
+    "equal": true,
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "path": "/sitemap.xml",
+    "status": 200,
+    "local": "7478aefa0a4f08e8ba41d383f04eee32cab2d9f4505d41bef4606d3eecc97c09",
+    "remote": "7478aefa0a4f08e8ba41d383f04eee32cab2d9f4505d41bef4606d3eecc97c09",
+    "equal": true,
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "path": "/social-card.jpg",
+    "status": 200,
+    "local": "3cd7b7ed684080e62b8f123f5a6e5434cb0d3e293098df96023839c7d08386c5",
+    "remote": "3cd7b7ed684080e62b8f123f5a6e5434cb0d3e293098df96023839c7d08386c5",
+    "equal": true,
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "path": "/staticwebapp.config.json",
+    "status": 404,
+    "local": "53b6b32917c92797f4bebecb937815a5ff6f92026fb063b68e0785ac255aeb81",
+    "remote": "0ab17c3ee08cb4ff7f78ecece7d7c07c29eef8a76b7b52fd7ca5c2b923a37027",
+    "equal": false,
+    "cache": "public, must-revalidate, max-age=30"
+  },
+  {
+    "path": "/sw.js",
+    "status": 200,
+    "local": "f459e0fbe7d94cd3b38ce22b3a5505d7f69c5e8fce3c996b416f7dbc86fa5d88",
+    "remote": "f459e0fbe7d94cd3b38ce22b3a5505d7f69c5e8fce3c996b416f7dbc86fa5d88",
+    "equal": true,
+    "cache": "no-cache"
+  }
+]
