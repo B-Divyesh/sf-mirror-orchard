@@ -1,0 +1,41 @@
+{
+  "baseUrl": "https://mirror-orchard.sociobot.in",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "cpuThrottle": 4,
+  "routes": [
+    { "path": "/", "status": 200, "h1": 1, "overflow": 0, "seriousCriticalAxe": 0 },
+    { "path": "/demo", "status": 200, "h1": 1, "overflow": 0, "seriousCriticalAxe": 0 },
+    { "path": "/archive", "status": 200, "h1": 1, "overflow": 0, "seriousCriticalAxe": 0 },
+    { "path": "/daily", "status": 200, "h1": 1, "overflow": 0, "seriousCriticalAxe": 0 },
+    { "path": "/seeds", "status": 200, "h1": 1, "overflow": 0, "seriousCriticalAxe": 0 },
+    { "path": "/privacy", "status": 200, "h1": 1, "overflow": 0, "seriousCriticalAxe": 0 },
+    { "path": "/terms", "status": 200, "h1": 1, "overflow": 0, "seriousCriticalAxe": 0 },
+    { "path": "/missing-page", "status": 404, "h1": 1, "overflow": 0, "seriousCriticalAxe": 0 }
+  ],
+  "invalidSeed": {
+    "value": "bad!",
+    "pattern": "[A-Za-z0-9 \\-]{1,48}",
+    "patternMismatch": true,
+    "ariaInvalid": "true",
+    "message": "Use 1–48 letters, numbers, spaces, or dashes.",
+    "consoleErrors": [],
+    "pageErrors": []
+  },
+  "frameRateFps": [59.88, 59.88, 59.88, 59.88, 59.88],
+  "medianFps": 59.88,
+  "minimumFps": 50,
+  "serviceWorker": {
+    "controlled": true,
+    "active": "activated",
+    "waiting": null,
+    "installing": null,
+    "offlineRecovery": true,
+    "offlineErrors": []
+  },
+  "requestOrigins": ["https://mirror-orchard.sociobot.in"],
+  "discoveredLinks": 61,
+  "failedLinks": []
+}

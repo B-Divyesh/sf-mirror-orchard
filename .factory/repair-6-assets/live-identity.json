@@ -1,0 +1,12 @@
+{
+  "baseUrl": "https://mirror-orchard.sociobot.in",
+  "repairCommit": "833f924",
+  "comparedFiles": 24,
+  "mismatches": [],
+  "sha256": {
+    "index.html": "e12b7ddd3e3a22196a778399f13c5cdb82d2a468d61e8fecc791ab117c1d2dea",
+    "assets/index-ddkzeJKS.js": "3bfef1808af09182cbccef488e73ce2a9fce85e2ed85e1bc33eae0c7406cbc45",
+    "assets/index-CsCT6HJ_.css": "6e773960ade9c31e157ab17c6bef31c349a0faeaf3ca7f6bbe61d8dc4d2ecb7e",
+    "sw.js": "f459e0fbe7d94cd3b38ce22b3a5505d7f69c5e8fce3c996b416f7dbc86fa5d88"
+  }
+}

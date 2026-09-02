@@ -1,0 +1,10 @@
+{
+  "/": 200,
+  "/play/archive/1": 200,
+  "/play/archive/40": 200,
+  "/play/archive/0": 404,
+  "/play/archive/41": 404,
+  "/play/archive/foo": 404,
+  "/play/seed/bad": 404,
+  "/missing-page": 404
+}
