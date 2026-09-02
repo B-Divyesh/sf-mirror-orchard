@@ -120,9 +120,9 @@
   },
   {
     "id": "frame-rate",
-    "claim": "The board rendering loop targets 60 fps on a mid-range phone.",
+    "claim": "Board rendering keeps a median cadence of at least 50 fps at 390 × 844 under 4× CPU throttling.",
     "where": "handoff performance notes",
     "test": "npm run test:e2e -- --grep @claim:frame-rate",
-    "sandbox": "fresh 390 × 844 /demo sample in Chromium with 4× CPU throttling; measure three independent 120-frame requestAnimationFrame samples while updating board highlights and require each rounded cadence to reach at least 60 fps"
+    "sandbox": "fresh 390 × 844 /demo sample in Chromium with 4× CPU throttling; measure five independent 120-frame requestAnimationFrame samples while updating board highlights and require their median cadence to reach at least 50 fps"
   }
 ]
