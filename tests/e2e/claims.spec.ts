@@ -62,6 +62,19 @@ test('@claim:complete-round a demo puzzle reaches its end screen', async ({ page
   expect(Date.now() - started).toBeLessThan(300_000);
 });
 
+test('@claim:no-timer a teaching board remains playable after ten simulated minutes', async ({ page }) => {
+  await page.clock.install({ time: new Date('2026-09-02T12:00:00.000Z') });
+  await enterDemo(page);
+  await page.clock.fastForward(10 * 60 * 1_000);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Try teaching board 3');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+
+  const placement = archiveBoard(3).solution[1];
+  await page.locator(`button[data-piece-kind="${placement.kind}"]:not(:disabled)`).first().click();
+  await page.locator(`[data-cell="${placement.anchor.col},${placement.anchor.row}"]`).click();
+  await expect(page.locator('.game-readout span').nth(1).locator('b')).toHaveText('2');
+});
+
 test('@claim:completion-persist completing a teaching board stays recorded in the archive', async ({ page }) => {
   await enterDemo(page);
   await solveDemoBoard(page);
@@ -456,7 +469,7 @@ test('seed input rejects punctuation and valid seed URLs stay reproducible', asy
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Page not found');
 });
 
-test('static response policy reserves real 404s for unknown application paths', async ({ request }) => {
+test('static response policy serves only archive boards 1–40 and reserves real 404s for invalid boundaries', async ({ request }) => {
   const response = await request.get('/staticwebapp.config.json');
   expect(response.ok()).toBe(true);
   const config = await response.json() as {
@@ -467,7 +480,13 @@ test('static response policy reserves real 404s for unknown application paths', 
   expect(config.navigationFallback.exclude).toContain('/*');
   expect(config.responseOverrides['404']).toEqual({ rewrite: '/404.html' });
   const appRoutes = config.routes.filter((route) => route.rewrite === '/index.html').map((route) => route.route);
-  expect(appRoutes).toEqual(expect.arrayContaining(['/demo', '/archive', '/play/archive/*']));
+  const archiveRoutes = appRoutes.filter((route) => route.startsWith('/play/archive/'));
+  const expectedArchiveRoutes = Array.from({ length: 40 }, (_, index) => `/play/archive/${index + 1}`);
+  expect(archiveRoutes).toEqual(expectedArchiveRoutes);
+  for (const invalidPath of ['/play/archive/0', '/play/archive/41', '/play/archive/-1', '/play/archive/foo']) {
+    expect(appRoutes).not.toContain(invalidPath);
+  }
+  expect(appRoutes).not.toContain('/play/archive/*');
   expect(appRoutes).not.toContain('/play/seed/*');
   expect(config.routes.some((route) => route.rewrite && route.statusCode)).toBe(false);
 });

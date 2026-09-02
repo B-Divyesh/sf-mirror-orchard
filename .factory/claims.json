@@ -14,6 +14,13 @@
     "sandbox": "fresh /demo sample; place the supplied branches through the public UI"
   },
   {
+    "id": "no-timer",
+    "claim": "Rounds have no timer.",
+    "where": "README",
+    "test": "npm run test:e2e -- --grep @claim:no-timer",
+    "sandbox": "fresh /demo sample; advance the browser clock ten minutes and place the next branch through the public UI"
+  },
+  {
     "id": "completion-persist",
     "claim": "Completed teaching boards stay recorded in the archive.",
     "where": "archive, privacy page, README",
