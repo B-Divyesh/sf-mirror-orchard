@@ -1,0 +1,108 @@
+{
+  "landing": {
+    "heading": "Learn a symmetry puzzle at your pace",
+    "board": {
+      "x": 16,
+      "y": 722.625,
+      "width": 358,
+      "height": 429.15625
+    },
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "scrollWidth": 390,
+    "clientWidth": 390
+  },
+  "touch": {
+    "moves": 2,
+    "filled": 4
+  },
+  "keyboard": {
+    "arrowFocus": true,
+    "numberFocus": true,
+    "focusSequence": [
+      "Your planting is saved",
+      "Resume board",
+      "Restart board",
+      "Resume board",
+      "Restart board"
+    ],
+    "focusStyle": {
+      "outline": "rgb(255, 211, 125) solid 3px",
+      "outlineColor": "rgb(255, 211, 125)",
+      "outlineWidth": "3px",
+      "outlineOffset": "3px"
+    }
+  },
+  "minTarget": 44,
+  "targets": [
+    {
+      "label": "Reset demo",
+      "width": 106,
+      "height": 44
+    },
+    {
+      "label": "Start for real",
+      "width": 114,
+      "height": 44
+    },
+    {
+      "label": "Mirror Orchard",
+      "width": 44,
+      "height": 44
+    },
+    {
+      "label": "Archive",
+      "width": 54,
+      "height": 44
+    },
+    {
+      "label": "Daily",
+      "width": 44,
+      "height": 44
+    },
+    {
+      "label": "Seeds",
+      "width": 44,
+      "height": 44
+    },
+    {
+      "label": "Demo",
+      "width": 44,
+      "height": 44
+    },
+    {
+      "label": "↻ Rotate R",
+      "width": 100,
+      "height": 77.578125
+    },
+    {
+      "label": "↶ Undo Z",
+      "width": 100,
+      "height": 77.578125
+    },
+    {
+      "label": "Ⅱ Pause Esc",
+      "width": 100,
+      "height": 77.578125
+    },
+    {
+      "label": "Sound off",
+      "width": 154,
+      "height": 44
+    },
+    {
+      "label": "Calm motion off",
+      "width": 154,
+      "height": 44
+    }
+  ],
+  "plot": {
+    "x": 29,
+    "y": 271.453125,
+    "width": 44,
+    "height": 44
+  },
+  "errors": []
+}

@@ -1,0 +1,45 @@
+{
+  "initial": {
+    "phase": "playing",
+    "moves": 1,
+    "dew": 3,
+    "filled": 2,
+    "keys": [
+      "demo:mirror-orchard:v1"
+    ]
+  },
+  "loss": {
+    "phase": "lost",
+    "moves": 1,
+    "dew": 0
+  },
+  "restarted": {
+    "phase": "playing",
+    "moves": 0,
+    "dew": 3,
+    "filled": 0,
+    "used": 0
+  },
+  "recovery": {
+    "phase": "paused",
+    "moves": 1,
+    "filled": 2,
+    "focused": "Your planting is saved",
+    "sound": "true",
+    "calm": "true",
+    "htmlClass": "calm-motion",
+    "keys": [
+      "demo:mirror-orchard:v1"
+    ]
+  },
+  "afterDemo": {
+    "url": "https://mirror-orchard.sociobot.in/play/archive/1",
+    "keys": [],
+    "heading": "Plant teaching board 1"
+  },
+  "requestOrigins": [
+    "https://mirror-orchard.sociobot.in"
+  ],
+  "requestCount": 10,
+  "errors": []
+}

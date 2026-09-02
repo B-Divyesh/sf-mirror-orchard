@@ -1,0 +1,18 @@
+{
+  "before": {
+    "controlled": true,
+    "active": "https://mirror-orchard.sociobot.in/sw.js",
+    "activeState": "activated",
+    "waiting": null,
+    "installing": null,
+    "caches": [
+      "mirror-orchard-7f649fe12d0a"
+    ]
+  },
+  "offline": {
+    "heading": "Try teaching board 3",
+    "notice": "You are offline. Saved boards remain playable.",
+    "boardVisible": true,
+    "url": "https://mirror-orchard.sociobot.in/demo"
+  }
+}

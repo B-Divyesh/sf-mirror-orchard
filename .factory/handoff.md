@@ -1,47 +1,51 @@
-# Mirror Orchard handoff
+# Mirror Orchard verification handoff
 
 ## Status
 
-Perfection-loop round 1 is complete. All five findings in `.factory/review-1.md` and every earlier finding carried into that review are fixed and verified. The implementation commit `b77730df128cbb90a687e0fff952239d6f4d26a0` is pushed to `main` and deployed at <https://mirror-orchard.sociobot.in>.
+**FAIL** for work order `mirror-orchard-verify-4`.
 
-No known gaps remain.
+- Candidate: `ae23b2335e084f1788a061e7b9359cdb89c7b584`
+- Live URL: <https://mirror-orchard.sociobot.in>
+- Verified: 2026-09-02 UTC
 
-## What changed
+The deployed game matches the candidate build and works end to end. Release is
+blocked by the claim-evidence mismatch documented in
+[verification-4.md](verification-4.md). The real 404 also lacks the standard
+header/footer/skip-link skeleton and required route metadata.
 
-- Browser Back and every in-app route change now focus the current page heading and announce the route in a polite live region, including the landing page.
-- Landing copy now limits the always-open promise to teaching boards, describes accepted seed characters accurately, and uses descriptive section labels.
-- `.factory/claims.json` now includes the promised demo sample state. The matching test enters through `/?demo=1`, verifies board 3 plus completed boards 1 and 2, and exercises Reset demo.
-- The branch tray no longer creates an invalid nested complementary landmark.
-- `.factory/copy-audit.md` and the new verb-first `.factory/catalog-description.txt` reflect the released wording.
-- `.factory/polish-1.md` maps each finding to its code change and local/live evidence.
+## Verification completed
 
-## Verification
+- Ran all 17 exact `.factory/claims.json` commands independently after `npm ci`;
+  all commands passed.
+- Passed `npm run typecheck`, `npm run lint`, `npm test` (4 unit and 26 browser
+  tests), and `npm run build`; `dist/` was produced.
+- Passed the desktop and 390 px first-read/demo gate.
+- Played deterministic teaching, daily, and personal-seed runs through their
+  real end screens and replayed them.
+- Verified loss, restart reset, saved-run recovery, persistent settings,
+  archive completion, seed boundaries, all advertised inputs, and demo isolation.
+- Verified same-origin-only requests, security headers, cache policy, service
+  worker update, offline reload, reduced motion, route/link status, and artifact
+  identity.
+- Found zero Axe serious/critical violations on all application routes and the
+  404. Mobile Lighthouse scored 95 performance and 100 for accessibility, best
+  practices, and SEO.
+- Measured three warmed 390 × 844 samples at 60.00 fps under 4× CPU throttling.
 
-From a fresh clone of `b77730d`:
+## Findings to repair
 
-- `npm ci`: passed; 61 packages, 0 vulnerabilities.
-- Every one of the 17 commands in `.factory/claims.json`: passed independently.
-- `npm test`: passed; 4 deterministic unit tests and 26 Chromium browser tests.
-- `npm run build`: passed and produced `dist/`.
-- Build size: JS 33.55 KB raw / 11.78 KB gzip; CSS 23.28 KB raw / 5.89 KB gzip; mobile hero 77.38 KB.
+1. Add or narrow claim entries and their tagged tests. In particular, cover the
+   README's daily replay and per-round time promises; make `input-paths` test
+   pointer plus all advertised keys; and assert the claimed 60 fps number rather
+   than a 45 fps surrogate.
+2. Give the real 404 the shared skip link, header/navigation, footer, description,
+   canonical URL, theme color, and social metadata.
 
-Additional checks:
-
-- `npm run typecheck` and `npm run lint`: passed.
-- Standalone Axe 4.10.3: zero violations on all seven public app routes, locally and live.
-- `verify-url.sh`: `/`, `/demo`, live `/`, and live `/?demo=1` passed with zero console errors.
-- Live Lighthouse mobile: performance 99, accessibility 100, best practices 100, SEO 100.
-- Live 390 × 844 cold check: no horizontal overflow and the game board begins at y=722.625 within the first viewport.
-- Live route/metadata crawl: eight routes and 52 internal links passed, including unique titles, canonical URLs, legal links, and a real HTTP 404.
-- Live privacy/offline check: only the product origin was requested; the hosted service worker reloaded the isolated demo offline.
-- Live review replay: all five review findings passed in a fresh browser context.
-
-Detailed evidence and screenshots are in [.factory/polish-1.md](polish-1.md).
-
-## Run and verify
+## Reproduce
 
 ```sh
 npm ci
+jq -r '.[].test' .factory/claims.json
 npm run typecheck
 npm run lint
 npm test
@@ -49,8 +53,9 @@ npm run build
 npm run preview
 ```
 
-The static artifact is `dist/`. The one-click isolated sample is available locally at <http://localhost:4173/?demo=1> and live at <https://mirror-orchard.sociobot.in/?demo=1>.
+Run each command printed from `claims.json` separately. The full report and
+captured evidence are in [verification-4.md](verification-4.md) and
+`.factory/verification-4-assets/`.
 
-## Deployment
-
-The production `dist/` was deployed on 2026-09-02 to the product-owned `sf-mirror-orchard` Static Web App in resource group `sociobot`. The custom domain served the new `index-Bwed6F4F.js` bundle immediately after deployment. No other service, application setting, database, storage account, DNS record, or resource was read or changed.
+No product source, deployment, infrastructure, DNS, database, storage resource,
+application setting, or secret was modified during verification.
