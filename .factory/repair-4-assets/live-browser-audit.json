@@ -1,0 +1,461 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "title": "Mirror Orchard — Learn a symmetry puzzle",
+      "h1": 1,
+      "main": 1,
+      "overflow": false,
+      "missingAlt": 0,
+      "hrefs": [
+        "https://mirror-orchard.sociobot.in/#main",
+        "https://mirror-orchard.sociobot.in/",
+        "https://mirror-orchard.sociobot.in/archive",
+        "https://mirror-orchard.sociobot.in/daily",
+        "https://mirror-orchard.sociobot.in/seeds",
+        "https://mirror-orchard.sociobot.in/demo",
+        "https://mirror-orchard.sociobot.in/demo",
+        "https://mirror-orchard.sociobot.in/archive",
+        "https://mirror-orchard.sociobot.in/daily",
+        "https://mirror-orchard.sociobot.in/seeds",
+        "https://mirror-orchard.sociobot.in/privacy",
+        "https://mirror-orchard.sociobot.in/terms",
+        "https://sociobot.in/"
+      ],
+      "seriousAxe": 0
+    },
+    {
+      "path": "/demo",
+      "title": "Demo — Mirror Orchard",
+      "h1": 1,
+      "main": 1,
+      "overflow": false,
+      "missingAlt": 0,
+      "hrefs": [
+        "https://mirror-orchard.sociobot.in/demo#main",
+        "https://mirror-orchard.sociobot.in/play/archive/1",
+        "https://mirror-orchard.sociobot.in/demo",
+        "https://mirror-orchard.sociobot.in/archive?demo=1",
+        "https://mirror-orchard.sociobot.in/daily?demo=1",
+        "https://mirror-orchard.sociobot.in/seeds?demo=1",
+        "https://mirror-orchard.sociobot.in/demo",
+        "https://mirror-orchard.sociobot.in/privacy?demo=1",
+        "https://mirror-orchard.sociobot.in/terms?demo=1",
+        "https://sociobot.in/"
+      ],
+      "seriousAxe": 0
+    },
+    {
+      "path": "/archive",
+      "title": "Teaching archive — Mirror Orchard",
+      "h1": 1,
+      "main": 1,
+      "overflow": false,
+      "missingAlt": 0,
+      "hrefs": [
+        "https://mirror-orchard.sociobot.in/archive#main",
+        "https://mirror-orchard.sociobot.in/",
+        "https://mirror-orchard.sociobot.in/archive",
+        "https://mirror-orchard.sociobot.in/daily",
+        "https://mirror-orchard.sociobot.in/seeds",
+        "https://mirror-orchard.sociobot.in/demo",
+        "https://mirror-orchard.sociobot.in/play/archive/1",
+        "https://mirror-orchard.sociobot.in/play/archive/2",
+        "https://mirror-orchard.sociobot.in/play/archive/3",
+        "https://mirror-orchard.sociobot.in/play/archive/4",
+        "https://mirror-orchard.sociobot.in/play/archive/5",
+        "https://mirror-orchard.sociobot.in/play/archive/6",
+        "https://mirror-orchard.sociobot.in/play/archive/7",
+        "https://mirror-orchard.sociobot.in/play/archive/8",
+        "https://mirror-orchard.sociobot.in/play/archive/9",
+        "https://mirror-orchard.sociobot.in/play/archive/10",
+        "https://mirror-orchard.sociobot.in/play/archive/11",
+        "https://mirror-orchard.sociobot.in/play/archive/12",
+        "https://mirror-orchard.sociobot.in/play/archive/13",
+        "https://mirror-orchard.sociobot.in/play/archive/14",
+        "https://mirror-orchard.sociobot.in/play/archive/15",
+        "https://mirror-orchard.sociobot.in/play/archive/16",
+        "https://mirror-orchard.sociobot.in/play/archive/17",
+        "https://mirror-orchard.sociobot.in/play/archive/18",
+        "https://mirror-orchard.sociobot.in/play/archive/19",
+        "https://mirror-orchard.sociobot.in/play/archive/20",
+        "https://mirror-orchard.sociobot.in/play/archive/21",
+        "https://mirror-orchard.sociobot.in/play/archive/22",
+        "https://mirror-orchard.sociobot.in/play/archive/23",
+        "https://mirror-orchard.sociobot.in/play/archive/24",
+        "https://mirror-orchard.sociobot.in/play/archive/25",
+        "https://mirror-orchard.sociobot.in/play/archive/26",
+        "https://mirror-orchard.sociobot.in/play/archive/27",
+        "https://mirror-orchard.sociobot.in/play/archive/28",
+        "https://mirror-orchard.sociobot.in/play/archive/29",
+        "https://mirror-orchard.sociobot.in/play/archive/30",
+        "https://mirror-orchard.sociobot.in/play/archive/31",
+        "https://mirror-orchard.sociobot.in/play/archive/32",
+        "https://mirror-orchard.sociobot.in/play/archive/33",
+        "https://mirror-orchard.sociobot.in/play/archive/34",
+        "https://mirror-orchard.sociobot.in/play/archive/35",
+        "https://mirror-orchard.sociobot.in/play/archive/36",
+        "https://mirror-orchard.sociobot.in/play/archive/37",
+        "https://mirror-orchard.sociobot.in/play/archive/38",
+        "https://mirror-orchard.sociobot.in/play/archive/39",
+        "https://mirror-orchard.sociobot.in/play/archive/40",
+        "https://mirror-orchard.sociobot.in/privacy",
+        "https://mirror-orchard.sociobot.in/terms",
+        "https://sociobot.in/"
+      ],
+      "seriousAxe": 0
+    },
+    {
+      "path": "/daily",
+      "title": "Daily puzzle — Mirror Orchard",
+      "h1": 1,
+      "main": 1,
+      "overflow": false,
+      "missingAlt": 0,
+      "hrefs": [
+        "https://mirror-orchard.sociobot.in/daily#main",
+        "https://mirror-orchard.sociobot.in/",
+        "https://mirror-orchard.sociobot.in/archive",
+        "https://mirror-orchard.sociobot.in/daily",
+        "https://mirror-orchard.sociobot.in/seeds",
+        "https://mirror-orchard.sociobot.in/demo",
+        "https://mirror-orchard.sociobot.in/privacy",
+        "https://mirror-orchard.sociobot.in/terms",
+        "https://sociobot.in/"
+      ],
+      "seriousAxe": 0
+    },
+    {
+      "path": "/seeds",
+      "title": "Personal seeds — Mirror Orchard",
+      "h1": 1,
+      "main": 1,
+      "overflow": false,
+      "missingAlt": 0,
+      "hrefs": [
+        "https://mirror-orchard.sociobot.in/seeds#main",
+        "https://mirror-orchard.sociobot.in/",
+        "https://mirror-orchard.sociobot.in/archive",
+        "https://mirror-orchard.sociobot.in/daily",
+        "https://mirror-orchard.sociobot.in/seeds",
+        "https://mirror-orchard.sociobot.in/demo",
+        "https://mirror-orchard.sociobot.in/privacy",
+        "https://mirror-orchard.sociobot.in/terms",
+        "https://sociobot.in/"
+      ],
+      "seriousAxe": 0
+    },
+    {
+      "path": "/privacy",
+      "title": "Privacy — Mirror Orchard",
+      "h1": 1,
+      "main": 1,
+      "overflow": false,
+      "missingAlt": 0,
+      "hrefs": [
+        "https://mirror-orchard.sociobot.in/privacy#main",
+        "https://mirror-orchard.sociobot.in/",
+        "https://mirror-orchard.sociobot.in/archive",
+        "https://mirror-orchard.sociobot.in/daily",
+        "https://mirror-orchard.sociobot.in/seeds",
+        "https://mirror-orchard.sociobot.in/demo",
+        "https://mirror-orchard.sociobot.in/privacy",
+        "https://mirror-orchard.sociobot.in/terms",
+        "https://sociobot.in/"
+      ],
+      "seriousAxe": 0
+    },
+    {
+      "path": "/terms",
+      "title": "Terms — Mirror Orchard",
+      "h1": 1,
+      "main": 1,
+      "overflow": false,
+      "missingAlt": 0,
+      "hrefs": [
+        "https://mirror-orchard.sociobot.in/terms#main",
+        "https://mirror-orchard.sociobot.in/",
+        "https://mirror-orchard.sociobot.in/archive",
+        "https://mirror-orchard.sociobot.in/daily",
+        "https://mirror-orchard.sociobot.in/seeds",
+        "https://mirror-orchard.sociobot.in/demo",
+        "https://mirror-orchard.sociobot.in/privacy",
+        "https://mirror-orchard.sociobot.in/terms",
+        "https://sociobot.in/"
+      ],
+      "seriousAxe": 0
+    }
+  ],
+  "normalConsoleErrors": [],
+  "normalPageErrors": [],
+  "requestOrigins": [
+    "https://mirror-orchard.sociobot.in"
+  ],
+  "touchTargets": {
+    "count": 12,
+    "minWidth": 44,
+    "minHeight": 44
+  },
+  "dialogTabOrder": [
+    "Resume board",
+    "Restart board",
+    "Resume board",
+    "Restart board"
+  ],
+  "serviceWorker": {
+    "controlled": true,
+    "installing": false,
+    "waiting": false,
+    "caches": [
+      "mirror-orchard-51cdaada04c5"
+    ]
+  },
+  "offlineReload": true,
+  "checkedLinks": [
+    {
+      "href": "https://mirror-orchard.sociobot.in/",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/#main",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/archive",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/archive#main",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/archive?demo=1",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/daily",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/daily#main",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/daily?demo=1",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/demo",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/demo#main",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/1",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/10",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/11",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/12",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/13",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/14",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/15",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/16",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/17",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/18",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/19",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/2",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/20",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/21",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/22",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/23",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/24",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/25",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/26",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/27",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/28",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/29",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/3",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/30",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/31",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/32",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/33",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/34",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/35",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/36",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/37",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/38",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/39",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/4",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/40",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/5",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/6",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/7",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/8",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/play/archive/9",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/privacy",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/privacy#main",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/privacy?demo=1",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/seeds",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/seeds#main",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/seeds?demo=1",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/terms",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/terms#main",
+      "status": 200
+    },
+    {
+      "href": "https://mirror-orchard.sociobot.in/terms?demo=1",
+      "status": 200
+    }
+  ],
+  "missingRoute": {
+    "status": 404,
+    "seriousAxe": 0
+  },
+  "reducedMotion": {
+    "transitionDuration": "1e-05s",
+    "animationDuration": "1e-05s",
+    "scrollBehavior": "auto"
+  }
+}
