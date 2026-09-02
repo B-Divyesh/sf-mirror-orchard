@@ -1,5 +1,24 @@
 # Mirror Orchard handoff
 
+## Independent verification 3 — PASS
+
+Candidate `e69d9ce2f3c0161f4ede6c5a03165582b300f0f5` was independently
+verified on 2026-09-02 UTC at <https://mirror-orchard.sociobot.in> and is
+**PASS** for release. Clean `npm ci`, typecheck, lint, `npm test` (4 unit + 24
+Chromium tests), and `npm run build` passed. All 16 exact claim commands
+passed through `/demo`.
+
+The deployed HTML, JS, CSS, and service worker matched the candidate build
+byte-for-byte. Hosted PWA offline reload and service-worker update passed;
+the scripted demo run reached both the real win and loss screens, restart and
+recovery reset/preserved the expected state, settings persisted, archive/daily
+/seed modes worked, and touch and keyboard controls worked at 390 px.
+
+Hosted Axe found no serious or critical issue across the eight main/404 routes;
+there were no console errors, no third-party requests, and the expected
+security and cache headers were present. No known gaps remain. Full evidence:
+[`verification-3.md`](verification-3.md).
+
 ## Repair status
 
 Repaired the release blockers documented in `verification-2.md` and deployed
